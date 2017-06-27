@@ -1,21 +1,33 @@
 <template>
   <div class="table-container" v-title="'文章'">
     <div class="card">
-      <div class="table-operation">
-        <div class="table-btn-group">         
-          <el-button type="danger" :disabled="disDelete" @click="handleDeleteSelection">移至回收站</el-button>
-          <el-button type="text" :disabled="disDelete" @click="handleReverseSelection">反选</el-button>
-        </div>
-        <el-form :inline="true" :model="search">
-          <el-form-item label="标题">
-            <el-input v-model="search.address" placeholder="标题"></el-input>
+      <div class="table-search">
+        <el-form ref="searchForm" :inline="true" :model="search">
+          <el-form-item label="标题" prop="title">
+            <el-input v-model="search.title" placeholder="标题"></el-input>
           </el-form-item>
-          <el-form-item label="日期">
+          <el-form-item label="分类" prop="group">
+            <el-select v-model="search.group" placeholder="请选择分类">
+              <el-option v-for="item in groups" :key="item.val" :label="item.txt" :value="item.val">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="标签" prop="tag">
+            <el-input v-model="search.tag" placeholder="标签"></el-input>
+          </el-form-item>
+          <el-form-item label="置顶" prop="top">
+            <el-select v-model="search.top" placeholder="是否置顶">
+              <el-option v-for="item in [{txt:'',val:null},{txt:'是',val:1},{txt:'否',val:0}]" :key="item.val" :label="item.txt" :value="item.val">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="日期" prop="daterange">
             <el-date-picker v-model="search.daterange" type="daterange" placeholder="选择日期范围">
             </el-date-picker>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="handleSearch">搜索</el-button>
+            <el-button @click="resetSearch">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -26,27 +38,38 @@
         </el-table-column>
         <el-table-column prop="title" label="标题" width="150" sortable="custom">
         </el-table-column>
-        <el-table-column prop="group" label="分类" width="120" sortable="custom">
+        <el-table-column prop="group" label="分类" width="100">
         </el-table-column>
-        <el-table-column prop="tag" label="标签" width="120" sortable="custom">
+        <el-table-column prop="tag" label="标签" width="120">
         </el-table-column>
         <el-table-column prop="comment" label="评论" width="90" sortable="custom">
         </el-table-column>
-        <el-table-column prop="like" label="赞" width="90" sortable="custom">
+        <el-table-column prop="like" label="赞" width="80" sortable="custom">
         </el-table-column>
         <el-table-column prop="click" label="点击" width="90" sortable="custom">
         </el-table-column>
+        <el-table-column prop="top" label="置顶" width="80">
+          <template scope="scope">
+            <el-switch v-model="scope.row.top" :on-value="1" :off-value="0" on-text="" off-text=""></el-switch>
+          </template>
+        </el-table-column>
         <el-table-column prop="date" label="日期" show-overflow-tooltip sortable="custom">
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="200">
+        <el-table-column fixed="right" label="操作" width="170">
           <template scope="scope">
-            <el-button @click="handleEdit(scope.$index, scope.row)" type="primary" size="small">查看</el-button>
-            <el-button @click="handleEdit(scope.$index, scope.row)" type="success" size="small">编辑</el-button>
-            <el-button @click="handleDelete(scope.$index, scope.row)" type="danger" size="small">回收</el-button>
+            <el-button-group>
+              <el-button @click="handleView(scope.row.id)" type="primary" size="small">查看</el-button>
+              <el-button @click="handleEdit(scope.$index, scope.row)" type="success" size="small">编辑</el-button>
+              <el-button @click="handleDelete(scope.$index, scope.row)" type="danger" size="small">回收</el-button>
+            </el-button-group>
           </template>
         </el-table-column>
       </el-table>
-      <div class="table-pagination">
+      <div class="table-bottom">
+        <div class="table-btn-group">
+          <el-button type="danger" :disabled="disDelete" @click="handleDeleteSelection">移至回收站</el-button>
+          <el-button type="text" :disabled="disDelete" @click="handleReverseSelection">反选</el-button>
+        </div>
         <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="1000">
         </el-pagination>
       </div>
@@ -59,13 +82,17 @@ export default {
   data() {
     return {
       search: {
+        date: null,
         daterange: null,
-        title: ''
+        title: '',
+        group: null,
+        tag: '',
+        top: null
       },
       filter: null,
-      datas: [{id:1,title:'TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle',group:'Group',tag:'Tag',comment:'Comment',like:'Like',click:'Click',date:'Date'},
-      {id:2,title:'Title',group:'Group',tag:'Tag',comment:'Comment',like:'Like',click:'Click',date:'Date'},
-      {id:3,title:'Title',group:'Group',tag:'Tag',comment:'Comment',like:'Like',click:'Click',date:'Date'}],
+      datas: [{ id: 1, title: 'TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle', group: 'Group', tag: 'Tag', comment: 'Comment', like: 'Like', click: 'Click', top: 1, date: 'Date' },
+      { id: 2, title: 'Title', group: 'Group', tag: 'Tag', comment: 'Comment', like: 'Like', click: 'Click', top: 0, date: 'Date' },
+      { id: 3, title: 'Title', group: 'Group', tag: 'Tag', comment: 'Comment', like: 'Like', click: 'Click', top: 0, date: 'Date' }],
       order: {
         prop: 'date',
         order: 'descending'
@@ -73,7 +100,8 @@ export default {
       multipleSelection: [],
       currentPage: 1,
       disDelete: true,
-      loading: false
+      loading: false,
+      groups: [{txt:'',val:null}, {txt:'Group1',val:1}, {txt:'Group2',val:2}, {txt:'Group2',val:2}],    //全部分类列表
     }
   },
 
@@ -100,9 +128,13 @@ export default {
         //TODO: 服务端删除各项内容
       }
     },
+    // 查看处理
+    handleView(index, row) {
+      //TODO:跳转到文章页面
+    },
     // 修改处理
     handleEdit(index, row) {
-      this.$router.push({name:'post-edit',params:{postId:row.id}});
+      this.$router.push({ name: 'post-edit', params: { postId: row.id } });
     },
     // 删除处理
     handleDelete(index, row) {
@@ -125,16 +157,13 @@ export default {
         prop: 'date',
         order: 'descending'
       }
-      if (!(this.search.title || this.search.daterange)) {
-        this.filter = null;
-      } else {
-        this.filter = {
-          title: this.search.title,
-          start: this.search.daterange ? toDateString(this.search.daterange[0]) : '',
-          end: this.search.daterange ? toDateString(this.search.daterange[1]) : ''
-        }
-      }
+
+      // 格式化时间段
+      this.search.daterange && (this.search.date = [toDateString(this.search.daterange[0]),toDateString(this.search.daterange[1])]);
       this.getData();
+    },
+    resetSearch() {
+      this.$refs.searchForm.resetFields();
     },
     sortChange({ prop, order }) {
       this.order = {
@@ -180,19 +209,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-operation {
+.table-search {
   padding: 0 12px;
+  .el-form-item{
+    margin: 0 20px 10px 0;
+  }
 }
 
 .table-btn-group {
-  float: right;
+  float: left;
 }
 
-.table-card{
+.table-card {
   padding: 0;
 }
 
-.table-pagination {
+.table-bottom {
   border: 0;
   padding: 10px;
   text-align: right;

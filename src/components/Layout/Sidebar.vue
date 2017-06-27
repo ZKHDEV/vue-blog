@@ -18,15 +18,18 @@
                     <router-link :to="{name:'category'}">
                         <el-menu-item index="3">分类目录</el-menu-item>
                     </router-link>
+                    <router-link :to="{name:'recycle'}">
+                        <el-menu-item index="4">回收站</el-menu-item>
+                    </router-link>
                 </el-submenu>
             </el-menu-item-group>
             <el-menu-item-group title="">
                 <router-link to="/comment">
-                    <el-menu-item index="4">
+                    <el-menu-item index="5">
                         <i class="fa fa-comment"></i>评论</el-menu-item>
                 </router-link>
                 <router-link to="/upload">
-                    <el-menu-item index="5">
+                    <el-menu-item index="6">
                         <i class="el-icon-message"></i>上传</el-menu-item>
                 </router-link>
             </el-menu-item-group>
