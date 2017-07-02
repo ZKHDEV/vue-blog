@@ -48,7 +48,7 @@ const routes = [
 {
   path: '/login',
   name: 'login',
-  component: resolve => require(['./components/Login.vue'], resolve)
+  component: resolve => require(['./components/Common/Login.vue'], resolve)
 }
 ]
 

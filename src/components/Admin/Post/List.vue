@@ -48,7 +48,7 @@
         </el-table-column>
         <el-table-column prop="click" label="点击" width="90" sortable="custom">
         </el-table-column>
-        <el-table-column prop="top" label="置顶" width="80">
+        <el-table-column prop="top" label="置顶" width="85">
           <template scope="scope">
             <el-switch v-model="scope.row.top" :on-value="1" :off-value="0" on-text="" off-text=""></el-switch>
           </template>

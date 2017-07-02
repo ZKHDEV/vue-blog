@@ -44,9 +44,15 @@
                                     <el-radio :label="1">转载</el-radio>
                                 </el-radio-group>
                         </div>
-                        <br/>
+                        <div>
+                            <i class="fa fa-chevron-circle-up"></i>置顶：
+                                <el-switch v-model="post.top" :on-value="1" :off-value="0" on-text="是" off-text="否"></el-switch>
+                        </div>
                         <div>
                             <i class="fa fa-eye"></i>状态：{{post.type === 0 ? '草稿' : '已发布'}}
+                        </div>
+                        <div v-if="post.mtime">
+                            <i class="fa fa-calendar"></i>保存时间：{{post.mtime}}
                         </div>
                     </div>
                     <div class="card-operation">
@@ -110,7 +116,9 @@ export default {
                 type: 0,
                 public: 0,
                 categories: [],
-                tags: ['标签tag1']
+                tags: ['标签tag1'],
+                mtime: '2017-06-29',
+                top: 0
             },
             showAddCate: false,    //显示新建分类表单
             showAddTag: false,    //显示新建标签表单
@@ -162,6 +170,11 @@ export default {
 .option-card {
     padding: 0;
     font-size: 14px;
+    .card-content{
+        div{
+            margin-bottom: 6px;
+        }
+    }
 }
 
 .card-header {
