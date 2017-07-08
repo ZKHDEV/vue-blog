@@ -10,7 +10,7 @@ export default {
         state.token = '';
     },
     [types.TITLE] (state, title) {
-        window.document.title = title + ' - 后台管理系统';
+        window.document.title = title + ' - Macro博客';
         state.title = title;
     }
 }

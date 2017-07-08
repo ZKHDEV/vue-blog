@@ -1,49 +1,44 @@
 <template>
-    <div class="index-container">
-        <div class="header">
-            <div class="header-logo">
-                <img class="logo" src=""></img>
-                <img class="mini-logo" src=""></img>
-            </div>
-            <div class="header-nav">
-                <ul>
-                    <li class="active">
-                        <a href="#">
-                            <span>主页</span>
-                            <i class="fa fa-home"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span>分类</span>
-                            <i class="fa fa-bookmark-o"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span>相册</span>
-                            <i class="fa fa-camera-retro"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <span>关于</span>
-                            <i class="fa fa-id-card-o"></i>
-                        </a>
-                    </li>
-                    <li class="account-item">
-                        <a href="#">
-                            <i class="fa fa-sign-in"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="header-account">
-                <a class="account-btn" href="javascript:void(0)">登录/注册</a>
-            </div>
+    <div class="header-container">
+        <div class="header-logo">
+            <img class="logo" src=""></img>
+            <img class="mini-logo" src=""></img>
         </div>
-        <div class="content">
-            <router-view></router-view>
+        <div class="header-nav">
+            <ul>
+                <li class="active">
+                    <a href="#">
+                        <span>主页</span>
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span>分类</span>
+                        <i class="fa fa-bookmark-o"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span>相册</span>
+                        <i class="fa fa-camera-retro"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span>关于</span>
+                        <i class="fa fa-id-card-o"></i>
+                    </a>
+                </li>
+                <li class="account-item">
+                    <a href="#">
+                        <i class="fa fa-sign-in"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="header-account">
+            <a class="default-btn account-btn" href="javascript:void(0)">登录/注册</a>
         </div>
     </div>
 </template>
@@ -52,13 +47,12 @@ export default {
 
 }
 </script>
-<style lang="scss" scoped>
-.index-container {
-    background-color: #F0EFEE;
-    height: 1000px;
-}
 
-.header {
+<style lang="scss" scoped>
+.header-container {
+    position: fixed;
+    top: 0;
+    z-index: 9999;
     width: 100%;
     height: 55px;
     padding-top: 5px;
@@ -75,19 +69,19 @@ export default {
     text-align: center;
 }
 
-.header-logo{
+.header-logo {
     img.logo {
-    width: 100px;
-    height: 40px;
-    margin-top: 8px;
+        width: 100px;
+        height: 40px;
+        margin-top: 8px;
+    }
+    img.mini-logo {
+        display: none;
+        width: 40px;
+        height: 40px;
+        margin-top: 8px;
+    }
 }
-img.mini-logo {
-    display: none;
-    width: 40px;
-    height: 40px;
-    margin-top: 8px;
-}
-} 
 
 .header-nav {
     float: left;
@@ -110,23 +104,7 @@ img.mini-logo {
 }
 
 .account-btn {
-    display: inline-block;
     margin-top: 8px;
-    width: 100px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 3px;
-    color: #FFFFFF;
-    font-size: 13px;
-    text-decoration: none;
-    &:link,
-    &:visited {
-        background-color: #E87261;
-    }
-    &:hover,
-    &:active {
-        background-color: #D3675A;
-    }
 }
 
 .header-nav ul {
@@ -169,12 +147,6 @@ img.mini-logo {
     }
 }
 
-.content {
-    margin: 40px auto 0;
-    background-color: transparent;
-    width: 80%;
-}
-
 @media (max-width: 900px) {
     .header-logo {
         width: 20%;
@@ -212,16 +184,12 @@ img.mini-logo {
     .header-nav {
         width: 50%;
     }
-    .content{
-        margin: 12px auto 0;
-        width: 96%;
-    }
 }
 
 @media (max-width: 480px) {
     .header-logo {
         width: 20%;
-        img.logo{
+        img.logo {
             display: none;
         }
         img.mini-logo {

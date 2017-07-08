@@ -44,7 +44,7 @@
                                 <el-radio :label="1">转载</el-radio>
                             </el-radio-group>
                         </div>
-                        <br/>
+                        <br>
                         <div>
                             <i class="fa fa-eye"></i>状态：
                             <el-radio-group v-model="post.public">

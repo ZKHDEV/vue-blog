@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import types from '../../store/mutation-types'
+import types from '../../../store/mutation-types'
 export default {
     computed: {
         title() {

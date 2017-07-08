@@ -9,12 +9,12 @@ const routes = [
   {
     path: '/',
     name: 'index',
-    component: resolve => require(['./components/Home/Index.vue'], resolve),
+    component: resolve => require(['./components/Index/Index.vue'], resolve),
     children: [
       {
         path: '',
         name: '/',
-        component: resolve => require(['./components/Home/Main.vue'], resolve)
+        component: resolve => require(['./components/Index/Home/Index.vue'], resolve)
       }
     ]
   },
@@ -28,12 +28,12 @@ const routes = [
     meta: {
       auth: true
     },
-    component: resolve => require(['./components/Layout/Admin.vue'], resolve),
+    component: resolve => require(['./components/Admin/Layout/Admin.vue'], resolve),
     children: [
       {
         path: '',
         name: '/',
-        component: resolve => require(['./components/Welcome.vue'], resolve)
+        component: resolve => require(['./components/Admin/Welcome.vue'], resolve)
       },
       {
         path: 'post',
@@ -58,7 +58,7 @@ const routes = [
       {
         path: 'upload',
         name: 'upload',
-        component: resolve => require(['./components/Upload/Upload.vue'], resolve)
+        component: resolve => require(['./components/Admin/Upload/Upload.vue'], resolve)
       }
     ]
   }
