@@ -1,29 +1,9 @@
 <template>
     <div class="accordion">
-        <ul class="active" @mouseover="stopAnimate" @mouseout="startAnimate">
-            <li class="active">
-                <a href="javascript:void(0)">
-                    <img src="../../../assets/temp.jpg"></img>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:void(0)">
-                    <img src="../../../assets/temp2.jpg"></img>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:void(0)">
-                    <img src="../../../assets/temp.jpg"></img>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:void(0)">
-                    <img src="../../../assets/temp2.jpg"></img>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:void(0)">
-                    <img src="../../../assets/temp.jpg"></img>
+        <ul :class="{'active':isActive}" @mouseover="stopAnimate" @mouseout="startAnimate">
+            <li v-for="(item,index) in posts" :class="{'active':now===index}" @mouseover="now = index">
+                <a :href="item.link">
+                    <img :src="item.img"></img>
                 </a>
             </li>
         </ul>
@@ -33,43 +13,44 @@
 export default {
     data() {
         return {
-            now: 0,
-            interval: null
+            isActive: true,    //是否激活动画
+            now: 0,    //当前索引值
+            interval: null,    //时间间隔器
+            posts: [
+                {link:'javascript:void(0)', img: require('../../../assets/temp.jpg')},
+                {link:'javascript:void(0)', img: require('../../../assets/temp.jpg')},
+                {link:'javascript:void(0)', img: require('../../../assets/temp.jpg')},
+                {link:'javascript:void(0)', img: require('../../../assets/temp.jpg')},
+                {link:'javascript:void(0)', img: require('../../../assets/temp.jpg')}
+            ]
         }
     },
     methods:{
+        //暂停动画
         stopAnimate() {
-            
+            this.isActive = false;
+            clearInterval(this.interval);
+            this.interval = null;
         },
+        //激活动画
         startAnimate(){
-            
-
+            this.isActive = true;
+            this.play();
+        },
+        //播放动画
+        play() {
+            this.interval = setInterval(() => {
+                this.now = (this.now+1) >= this.posts.length ? 0 : this.now + 1;
+            },3000);
         }
     },
     mounted() {
-        // this.$nextTick(() => {
-        //     const accordionUl = document.querySelector('div.accordion ul');
-        //     accordionUl.onmouseenter = function() {
-        //         clearInterval(this.interval);
-        //         this.className = '';
-        //     }
-        //     accordionUl.onmouseout = function() {
-        //         this.interval = setInterval(() => {
-        //         this.now > 4 && (this.now = 0);
-        //         const accordionList = document.querySelectorAll('ul.active li');
-        //         accordionList.forEach((element) => {
-        //             element.className = '';
-        //         });
-        //         accordionList[this.now++].className = 'active';
-        //     }, 3000);
-        //         this.className = 'active';
-        //     }
-
-            
-        // });
+        //页面加载时开始播放动画
+        this.play();
     },
     beforeDestroy() {
-        // clearInterval(this.interval);
+        //释放时间间隔器
+        this.interval && clearInterval(this.interval);
     }
 }
 </script>
@@ -89,6 +70,7 @@ export default {
         li {
             width: 20%;
             float: left;
+            box-shadow: 0 0 20px 2px rgba(#000000, 0.3);
             transition: all 0.5s;
             &:hover {
                 width: 60%;

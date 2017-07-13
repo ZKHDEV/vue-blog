@@ -52,8 +52,7 @@ import $ from 'jquery'
 export default {
     data() {
         return {
-            show: true,
-            showIndex: 1,
+            showIndex: 0,
             postList: [
                 { title: '链接', url: 'https://www.baidu.com' },
                 { title: '链接', url: 'https://www.baidu.com' },
@@ -76,13 +75,14 @@ export default {
     },
     methods: {
         showMenu(index) {
-            this.$nextTick(()=>{
+            if (index !== this.showIndex) {
+                this.showIndex = index;
                 const accs = $('.acc-content');
                 accs.slideUp(300);
-                setTimeout(()=>{
+                setTimeout(() => {
                     accs.eq(index).slideDown(300);
-                },300);
-            });
+                }, 300);
+            }
         }
     }
 }
@@ -124,12 +124,12 @@ ul {
         color: #000000;
     }
 
-    .acc-content{
+    .acc-content {
         display: none;
     }
 
-    &:first-child{
-        .acc-content{
+    &:first-child {
+        .acc-content {
             display: block;
         }
     }
