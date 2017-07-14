@@ -38,7 +38,7 @@
             </ul>
         </div>
         <div class="header-account">
-            <a class="default-btn account-btn" href="javascript:void(0)">登录/注册</a>
+            <router-link :to="{name:'login'}" class="default-btn account-btn">登录/注册</router-link>
         </div>
     </div>
 </template>
