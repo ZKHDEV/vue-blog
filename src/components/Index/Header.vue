@@ -1,50 +1,80 @@
 <template>
     <div class="header-container">
-        <div class="header-logo">
-            <img class="logo" src=""></img>
-            <img class="mini-logo" src=""></img>
+        <div class="col-xs-2 col-sm-2 col-md-2 header-logo">
+            <img class="logo hidden-xs" src=""></img>
+            <img class="mini-logo visible-xs-inline-block" src=""></img>
         </div>
-        <div class="header-nav">
+        <div class="col-xs-10 col-sm-8 col-md-8 header-nav">
             <ul>
                 <li class="active">
                     <a href="#">
-                        <span>主页</span>
-                        <i class="fa fa-home"></i>
+                        <span class="hidden-xs">主页</span>
+                        <i class="fa fa-home visible-xs-inline-block"></i>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <span>分类</span>
-                        <i class="fa fa-bookmark-o"></i>
+                        <span class="hidden-xs">分类</span>
+                        <i class="fa fa-bookmark-o visible-xs-inline-block"></i>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <span>相册</span>
-                        <i class="fa fa-camera-retro"></i>
+                        <span class="hidden-xs">相册</span>
+                        <i class="fa fa-camera-retro visible-xs-inline-block"></i>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <span>关于</span>
-                        <i class="fa fa-id-card-o"></i>
+                        <span class="hidden-xs">关于</span>
+                        <i class="fa fa-id-card-o visible-xs-inline-block"></i>
                     </a>
                 </li>
-                <li class="account-item">
+                <li class="visible-xs">
                     <a href="#">
                         <i class="fa fa-sign-in"></i>
                     </a>
                 </li>
             </ul>
         </div>
-        <div class="header-account">
-            <router-link :to="{name:'login'}" class="default-btn account-btn">登录/注册</router-link>
+        <div class="hidden-xs col-xs-hide col-sm-2 col-md-2 header-account">
+            <router-link v-if="!isLogin" :to="{name:'login'}" class="default-btn account-btn">登录/注册</router-link>
+            <a class="setting-btn" href="javascript:void(0)" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
+                <img src=""></img>
+                <div class="setting-menu" v-show="showSetMenu">
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0)"><i class="fa fa-user"></i>设置</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"><i class="fa fa-user"></i>设置</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"><i class="fa fa-user"></i>设置</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"><i class="fa fa-user"></i>设置</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"><i class="fa fa-user"></i>设置</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"><i class="fa fa-user"></i>设置</a>
+                        </li>
+                    </ul>
+                </div>
+            </a>
         </div>
     </div>
 </template>
 <script>
 export default {
-
+    data() {
+        return {
+            isLogin: true,
+            showSetMenu: false
+        }
+    }
 }
 </script>
 
@@ -52,8 +82,9 @@ export default {
 .header-container {
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 9999;
-    width: 100%;
     height: 55px;
     padding-top: 5px;
     background: #FFFFFF url(../../assets/ColorLine.jpg);
@@ -63,9 +94,8 @@ export default {
 }
 
 .header-logo {
-    float: left;
-    width: 15%;
     height: 55px;
+    line-height: 55px;
     text-align: center;
 }
 
@@ -76,7 +106,6 @@ export default {
         margin-top: 8px;
     }
     img.mini-logo {
-        display: none;
         width: 40px;
         height: 40px;
         margin-top: 8px;
@@ -84,27 +113,86 @@ export default {
 }
 
 .header-nav {
-    float: left;
     background-color: #FFFFFF;
     height: 55px;
-    width: 70%;
-    margin: 0 auto;
     overflow: hidden;
     i {
-        display: none;
         font-size: 18px;
     }
 }
 
 .header-account {
-    float: right;
     height: 55px;
-    width: 15%;
     text-align: center;
 }
 
 .account-btn {
     margin-top: 8px;
+}
+
+.setting-btn {
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 55px;
+    text-decoration: none;
+    text-align: center;
+    color: #000000;
+    &:link,
+    &:visited {
+        background-color: #FFFFFF;
+    }
+    &:hover,
+    &:active {
+        background-color: #E4E4E4;
+    }
+    img {
+        width: 40px;
+        height: 40px;
+        margin-top: 8px;
+        display: inline-block;
+        border-radius: 20px;
+    }
+}
+
+.setting-menu {
+    position: absolute;
+    width: 150px;
+    top: 55px;
+    right: 0;
+    padding: 5px 0;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 6px 0 rgba(#000000, 0.3);
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        a {
+            display: block;
+            padding: 0 20px;
+            height: 50px;
+            line-height: 50px;
+            text-decoration: none;
+            text-align: left;
+            color: #000000;
+            font-size: 14px;
+            &:link,
+            &:visited {
+                background-color: #FFFFFF;
+            }
+            &:hover,
+            &:active {
+                background-color: #E4E4E4;
+            }
+            i{
+                position: relative;
+                top: 2px;
+                margin-right: 15px;
+                font-size: 20px;
+                color: #E87261;
+            }
+        }
+    }
 }
 
 .header-nav ul {
@@ -142,72 +230,17 @@ export default {
             }
         }
     }
-    .account-item {
-        display: none;
-    }
 }
 
-@media (max-width: 900px) {
-    .header-logo {
-        width: 20%;
-    }
-    .header-account {
-        width: 20%;
-    }
+@media (max-width: 768px) {
     .header-nav {
-        width: 60%;
-        ul {
-            margin: 0 0 0 5px;
-            li {
-                margin-right: 5px;
-                a {
-                    width: 50px;
-                    i {
-                        display: inline;
-                    }
-                    span {
-                        display: none;
-                    }
-                }
-            }
-        }
-    }
-}
-
-@media (max-width: 600px) {
-    .header-logo {
-        width: 25%;
-    }
-    .header-account {
-        width: 25%;
-    }
-    .header-nav {
-        width: 50%;
-    }
-}
-
-@media (max-width: 480px) {
-    .header-logo {
-        width: 20%;
-        img.logo {
-            display: none;
-        }
-        img.mini-logo {
-            display: inline-block;
-        }
-    }
-    .header-account {
-        display: none;
-    }
-    .header-nav {
-        width: 80%;
         ul {
             margin: 0;
             li {
                 margin-right: 0;
-            }
-            .account-item {
-                display: inline;
+                a {
+                    width: 50px;
+                }
             }
         }
     }
