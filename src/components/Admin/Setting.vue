@@ -1,6 +1,6 @@
 <template>
     <div class="setting-container" v-title="'设置'">
-        <div class="card setting-card">
+        <v-card class="setting-card">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                 <el-form-item label="活动名称" prop="name">
                     <el-input v-model="ruleForm.name"></el-input>
@@ -49,7 +49,7 @@
                     <el-button @click="resetForm('ruleForm')">重置</el-button>
                 </el-form-item>
             </el-form>
-        </div>
+        </v-card>
     </div>
 </template>
 
@@ -107,6 +107,9 @@ export default {
         resetForm(formName) {
             this.$refs[formName].resetFields();
         }
+    },
+    components: {
+        'v-card': resolve => require(['./components/Card.vue'], resolve)
     }
 }
 </script>

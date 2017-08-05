@@ -38,8 +38,8 @@
             </ul>
         </div>
         <div class="hidden-xs col-xs-hide col-sm-2 col-md-2 header-account">
-            <router-link v-if="!isLogin" :to="{name:'login'}" class="default-btn account-btn">登录/注册</router-link>
-            <a class="setting-btn" href="javascript:void(0)" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
+            <v-button v-if="!isLogin" class="account-btn" @click="handleLogin">登录/注册</v-button>
+            <a class="setting-btn" v-if="isLogin" href="javascript:void(0)" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
                 <img src=""></img>
                 <div class="setting-menu" v-show="showSetMenu">
                     <ul>
@@ -71,9 +71,17 @@
 export default {
     data() {
         return {
-            isLogin: true,
+            isLogin: false,
             showSetMenu: false
         }
+    },
+    methods: {
+        handleLogin() {
+            this.$router.push({name:'login'});
+        }
+    },
+    components: {
+        'v-button': resolve => require(['./components/Button.vue'], resolve),
     }
 }
 </script>
@@ -127,7 +135,8 @@ export default {
 }
 
 .account-btn {
-    margin-top: 8px;
+    width: 80px;
+    margin: 8px auto 0;
 }
 
 .setting-btn {

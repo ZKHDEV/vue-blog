@@ -1,6 +1,6 @@
 <template>
     <div class="table-container" v-title="'分类目录'">
-        <div class="card">
+        <v-card>
             <div class="table-operation">
                 <div class="table-btn-group">
                     <el-button type="primary" @click="handleAdd">添加</el-button>
@@ -17,8 +17,8 @@
                     </el-form-item>
                 </el-form>
             </div>
-        </div>
-        <div class="card table-card">
+        </v-card>
+        <v-card class="table-card">
             <el-table ref="dataTable" :data="datas" border stripe v-loading="loading" @sort-change="sortChange" @selection-change="handleSelectionChange" :default-sort="{prop: 'date',order: 'descending'}">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
@@ -36,7 +36,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-        </div>
+        </v-card>
         <!--添加/修改模块开始-->
         <el-dialog :title="dialog.title" :visible.sync="dialog.visible">
             <el-input v-model="dialog.cateName" placeholder="请输入分类名称"></el-input>
@@ -193,13 +193,17 @@ export default {
         // this.$http.get('/api/user').then((response) => {
         //   this.datas = response.data.datas;
         // });
+    },
+
+    components: {
+        'v-card': resolve => require(['../components/Card.vue'], resolve)
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .table-operation {
-    padding: 0 12px;
+    padding: 10px 22px;
 }
 
 .table-btn-group {

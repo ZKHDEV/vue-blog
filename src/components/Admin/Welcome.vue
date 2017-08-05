@@ -1,14 +1,16 @@
 <template>
   <div class="welcome-container" v-title="'主页'">
-      <div class="card welcome-card">
+      <v-card class="welcome-card">
         <h1>欢迎使用后台管理系统</h1>
-      </div>
+      </v-card>
   </div>
 </template>
 
 <script>
 export default {
-  
+  components: {
+    'v-card': resolve => require(['./components/Card.vue'], resolve)
+  }
 }
 </script>
 

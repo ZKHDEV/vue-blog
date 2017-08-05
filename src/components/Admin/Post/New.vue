@@ -3,17 +3,17 @@
         <el-row :gutter="10">
             <el-col :span="18">
                 <!--标题模块开始-->
-                <div class="card">
+                <v-card class="padding-card">
                     <el-input v-model="post.title" placeholder="在此输入标题"></el-input>
-                </div>
+                </v-card>
                 <!--标题模块结束-->
                 <!--正文模块开始-->
-                <div class="card">
+                <v-card class="padding-card">
                     <markdown-editor v-model="post.content" ref="markdownEditor"></markdown-editor>
-                </div>
+                </v-card>
                 <!--正文模块结束-->
                 <!--摘要模块开始-->
-                <div class="card option-card">
+                <v-card class="option-card">
                     <div class="card-header">
                         <p class="card-title">
                             <b>摘要</b>
@@ -23,12 +23,12 @@
                         <el-input type="textarea" autosize placeholder="在此输入摘要" v-model="post.summary" :maxlength="200">
                         </el-input>
                     </div>
-                </div>
+                </v-card>
                 <!--摘要模块结束-->
             </el-col>
             <el-col :span="6">
                 <!--发布模块开始-->
-                <div class="card option-card">
+                <v-card class="option-card">
                     <div class="card-header">
                         <p class="card-title">
                             <b>发布</b>
@@ -58,10 +58,10 @@
                     <div class="card-operation">
                         <el-button type="primary" size="small">发 布</el-button>
                     </div>
-                </div>
+                </v-card>
                 <!--发布模块结束-->
                 <!--分类模块开始-->
-                <div class="card option-card">
+                <v-card class="option-card">
                     <div class="card-header">
                         <p class="card-title">
                             <b>分类</b>
@@ -80,10 +80,10 @@
                             <el-button>添加新分类</el-button>
                         </div>
                     </div>
-                </div>
+                </v-card>
                 <!--分类模块结束-->
                 <!--标签模块开始-->
-                <div class="card option-card">
+                <v-card class="option-card">
                     <div class="card-header">
                         <p class="card-title">
                             <b>标签</b>
@@ -97,7 +97,7 @@
                         </el-input>
                         <el-button class="button-new-tag" v-else size="small" @click="showTagInput">+ 添加</el-button>
                     </div>
-                </div>
+                </v-card>
                 <!--标签模块结束-->
             </el-col>
         </el-row>
@@ -155,6 +155,7 @@ export default {
         }
     },
     components: {
+        'v-card': resolve => require(['../components/Card.vue'], resolve),
         markdownEditor
     },
     mounted() {
@@ -240,5 +241,9 @@ export default {
 
 .el-tag {
     margin: 0 6px 6px 0;
+}
+
+.padding-card {
+    padding: 10px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="shadow-card assist-card">
+    <div class="assist-card">
         <ul class="accordion">
             <li>
                 <a class="acc-btn" href="javascript:void(0)" @click="showMenu(0)">

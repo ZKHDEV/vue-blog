@@ -1,6 +1,6 @@
 <template>
   <div class="table-container" v-title="'文章'">
-    <div class="card">
+    <v-card>
       <div class="table-search">
         <el-form ref="searchForm" :inline="true" :model="search">
           <el-form-item label="标题" prop="title">
@@ -31,8 +31,8 @@
           </el-form-item>
         </el-form>
       </div>
-    </div>
-    <div class="card table-card">
+    </v-card>
+    <v-card class="table-card">
       <el-table ref="dataTable" :data="datas" border stripe v-loading="loading" @sort-change="sortChange" @selection-change="handleSelectionChange" :default-sort="{prop: 'date',order: 'descending'}">
         <el-table-column type="selection" width="55">
         </el-table-column>
@@ -73,7 +73,7 @@
         <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="1000">
         </el-pagination>
       </div>
-    </div>
+    </v-card>
   </div>
 </template>
 
@@ -204,13 +204,17 @@ export default {
     // this.$http.get('/api/user').then((response) => {
     //   this.datas = response.data.datas;
     // });
+  },
+
+  components: {
+    'v-card': resolve => require(['../components/Card.vue'], resolve)
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .table-search {
-  padding: 0 12px;
+  padding: 10px 22px;
   .el-form-item{
     margin: 0 20px 10px 0;
   }

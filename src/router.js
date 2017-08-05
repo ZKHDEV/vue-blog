@@ -15,6 +15,11 @@ const routes = [
         path: '',
         name: '/',
         component: resolve => require(['./components/Index/Home/Index.vue'], resolve)
+      },
+      {
+        path: 'post/:postId',
+        name: 'post',
+        component: resolve => require(['./components/Index/Post/Index.vue'], resolve)
       }
     ]
   },
@@ -32,32 +37,32 @@ const routes = [
     children: [
       {
         path: '',
-        name: '/',
+        name: 'admin',
         component: resolve => require(['./components/Admin/Welcome.vue'], resolve)
       },
       {
         path: 'post',
-        name: 'post',
+        name: 'admin-post',
         component: resolve => require(['./components/Admin/Post/List.vue'], resolve),
       },
       {
         path: 'post-new',
-        name: 'post-new',
+        name: 'admin-post-new',
         component: resolve => require(['./components/Admin/Post/New.vue'], resolve)
       },
       {
         path: 'post-edit/:postId',
-        name: 'post-edit',
+        name: 'admin-post-edit',
         component: resolve => require(['./components/Admin/Post/Edit.vue'], resolve)
       },
       {
         path: 'category',
-        name: 'category',
+        name: 'admin-category',
         component: resolve => require(['./components/Admin/Post/Category.vue'], resolve)
       },
       {
         path: 'upload',
-        name: 'upload',
+        name: 'admin-upload',
         component: resolve => require(['./components/Admin/Upload/Upload.vue'], resolve)
       }
     ]

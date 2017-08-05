@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <router-link :to="{name:'/'}">
+        <router-link :to="{name:'admin'}">
             <div class="sidebar-header">
                 <i class="fa fa-briefcase"></i> 后台管理系统</div>
         </router-link>
@@ -9,16 +9,16 @@
                 <el-submenu index="1">
                     <template slot="title">
                         <i class="fa fa-thumb-tack"></i>文章</template>
-                    <router-link :to="{name:'post'}">
+                    <router-link :to="{name:'admin-post'}">
                         <el-menu-item index="1">所有文章</el-menu-item>
                     </router-link>
-                    <router-link :to="{name:'post-new'}">
+                    <router-link :to="{name:'admin-post-new'}">
                         <el-menu-item index="2">写文章</el-menu-item>
                     </router-link>
-                    <router-link :to="{name:'category'}">
+                    <router-link :to="{name:'admin-category'}">
                         <el-menu-item index="3">分类目录</el-menu-item>
                     </router-link>
-                    <router-link :to="{name:'recycle'}">
+                    <router-link :to="{name:'admin-recycle'}">
                         <el-menu-item index="4">回收站</el-menu-item>
                     </router-link>
                 </el-submenu>

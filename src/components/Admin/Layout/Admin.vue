@@ -80,12 +80,3 @@ $boxShadow: 0 0 10px 1px rgba(#000000, 0.1);
     }
 }
 </style>
-
-<style lang="scss">
-.card {
-    margin-bottom: 10px;
-    padding: 10px;
-    box-shadow: 0 0 10px 1px rgba(#000000, 0.1);
-    background-color: #FFFFFF;
-}
-</style>

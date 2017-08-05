@@ -1,15 +1,21 @@
 <template>
   <div class="home-container" v-title="'主页'">
-    <div class="shadow-card accordion">
-      <v-accordion></v-accordion>
+    <div class="row acc-row">
+      <v-card>
+        <v-accordion></v-accordion>
+      </v-card>
     </div>
     <div class="row">
       <div class="col-md-8">
-        <v-post></v-post>
+        <v-card>
+          <v-post></v-post>
+        </v-card>
       </div>
       <div class="col-md-4">
         <div class="left-gap">
-          <v-assist></v-assist>
+          <v-card>
+            <v-assist></v-assist>
+          </v-card>
         </div>
       </div>
     </div>
@@ -22,16 +28,17 @@ export default {
     'v-accordion': resolve => require(['./Accordion.vue'], resolve),
     'v-post': resolve => require(['./Post.vue'], resolve),
     'v-assist': resolve => require(['./Assist.vue'], resolve),
+    'v-card': resolve => require(['../components/Card.vue'], resolve),
   }
 }
 </script>
 <style lang="scss" scoped>
-.accordion {
+.acc-row {
   height: 300px;
   margin-bottom: 40px;
 }
 
-.left-gap{
+.left-gap {
   margin-left: 10px;
 }
 </style>

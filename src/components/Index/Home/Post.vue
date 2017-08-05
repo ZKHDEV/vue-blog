@@ -17,12 +17,14 @@
                 </div>
             </div>
         </template>
-        <a class="default-btn post-load-btn" href="javascript:void(0);">加载更多</a>
+        <v-button class="post-load">加载更多</v-button>
     </div>
 </template>
 <script>
 export default {
-
+    components: {
+        'v-button': resolve => require(['../components/Button.vue'], resolve),
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -82,10 +84,8 @@ export default {
         }
     }
 }
-.post-load-btn{
-    display: block;
+.post-load{
     width: 100px;
     margin: 10px auto 0;
-    padding: 0;
 }
 </style>
