@@ -7,6 +7,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/test',
+    name: 'test',
+    component: resolve => require(['./components/Test.vue'], resolve)
+  },
+  {
     path: '/',
     name: 'index',
     component: resolve => require(['./components/Index/Index.vue'], resolve),

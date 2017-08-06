@@ -1,7 +1,7 @@
 <template>
     <div class="footer-container">
-        <div class="container">
-            <span class="copyright-text">版权所有 &copy; 2017 Macro之家</span>
+        <v-container>
+            <span class="copyright-text">版权所有 &copy; {{currentYear}} Macro之家</span>
             <ul class="help-list">
                 <li>
                     <a href="javascript:void(0)">关于我们</a>
@@ -19,12 +19,20 @@
                     <a href="javascript:void(0)">帮助中心</a>
                 </li>
             </ul>
-        </div>
+        </v-container>
     </div>
 </template>
 <script>
 export default {
-
+    computed: {
+        currentYear() {
+            return new Date().getFullYear();
+        }
+    },
+    components: {
+        'v-container': resolve => require(['./components/Layout/Container.vue'], resolve),
+        'v-col': resolve => require(['./components/Layout/Col.vue'], resolve),
+    }
 }
 </script>
 
@@ -32,6 +40,7 @@ export default {
 .footer-container {
     height: 60px;
     line-height: 60px;
+    margin-top: 100px;
     background: #FFFFFF url(../../assets/ColorLine.jpg);
     background-repeat: repeat-x;
     background-position-y: 55px;

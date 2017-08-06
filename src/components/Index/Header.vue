@@ -1,10 +1,10 @@
 <template>
     <div class="header-container">
-        <div class="col-xs-2 col-sm-2 col-md-2 header-logo">
+        <v-col :xs="2" :sm="2" :md="2" class="header-logo">
             <img class="logo hidden-xs" src=""></img>
-            <img class="mini-logo visible-xs-inline-block" src=""></img>
-        </div>
-        <div class="col-xs-10 col-sm-8 col-md-8 header-nav">
+             <img class="mini-logo visible-xs-inline-block" src=""></img> 
+        </v-col>
+        <v-col :xs="10" :sm="8" :md="8" class="header-nav">
             <ul>
                 <li class="active">
                     <a href="#">
@@ -36,8 +36,8 @@
                     </a>
                 </li>
             </ul>
-        </div>
-        <div class="hidden-xs col-xs-hide col-sm-2 col-md-2 header-account">
+        </v-col>
+        <v-col :sm="2" :md="2" class="hidden-xs header-account">
             <v-button v-if="!isLogin" class="account-btn" @click="handleLogin">登录/注册</v-button>
             <a class="setting-btn" v-if="isLogin" href="javascript:void(0)" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
                 <img src=""></img>
@@ -64,7 +64,7 @@
                     </ul>
                 </div>
             </a>
-        </div>
+        </v-col>
     </div>
 </template>
 <script>
@@ -82,6 +82,7 @@ export default {
     },
     components: {
         'v-button': resolve => require(['./components/Button.vue'], resolve),
+        'v-col': resolve => require(['./components/Layout/Col.vue'], resolve),
     }
 }
 </script>
