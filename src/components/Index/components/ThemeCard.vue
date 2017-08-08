@@ -1,5 +1,5 @@
 <template>
-    <div class="v-theme-card">
+    <div class="v-theme-card" :style="themeStyle">
         <div :style="style">
             <slot></slot>
         </div>
@@ -19,9 +19,19 @@ export default {
         backgroundColor: {
             type: String,
             default: '#FFFFFF'
+        },
+        backPosX: {
+            type: Number,
+            default: 0
         }
     },
     computed: {
+        themeStyle() {
+            let ret = {};
+            ret.backgroundPositionX = `${this.backPosX}px`
+
+            return ret;
+        },
         style() {
             let ret = {};
 
@@ -40,7 +50,6 @@ export default {
     border-radius: 6px;
     overflow: hidden;
     background: #FFFFFF url(../../../assets/ColorLine.jpg);
-    // background-position-x: -40px;
     box-shadow: 0 0 6px 0 rgba(#000000, 0.3);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="shadow-card post-card">
+    <div class="post-container">
         <template v-for="item in 6">
             <div class="post-item">
                 <img class="post-img" src=""></img>
@@ -17,7 +17,7 @@
                 </div>
             </div>
         </template>
-        <v-button class="post-load">加载更多</v-button>
+        <v-button class="post-load" type="two" :height="40" :width="100" :fontSize="13">加载更多</v-button>
     </div>
 </template>
 <script>
@@ -28,8 +28,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.post-card{
-    padding: 20px;
+.post-container{
     font-size: 14px;
     color: #000000;
 }
@@ -85,7 +84,7 @@ export default {
     }
 }
 .post-load{
-    width: 100px;
+    display: block;
     margin: 10px auto 0;
 }
 </style>

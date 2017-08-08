@@ -1,6 +1,6 @@
 <template>
     <div class="login-container" v-title="'登录'">
-        <v-theme-card class="login-card" :padding-hor="50" :padding-ver="38">
+        <v-theme-card class="login-card" :padding-hor="50" :padding-ver="38" :backPosX="-40">
             <div class="card-content">
                 <img class="logo"></img>
                 <v-inverse-card class="input-card" :padding-hor="20" :padding-ver="0">
@@ -105,7 +105,6 @@ export default {
     margin: 50vh auto 0;
     transform: translateY(-50%);
     width: 400px;
-    background-position-x: -40px;
     text-align: center;
 }
 

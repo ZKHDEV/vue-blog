@@ -1,27 +1,31 @@
 <template>
-    <div class="accordion">
+    <div class="v-accordion">
         <ul :class="{'active':isActive}" @mouseover="stopAnimate" @mouseout="startAnimate">
-            <li v-for="(item,index) in posts" :class="{'active':now===index}" @mouseover="now = index">
-                <a :href="item.link">
-                    <img :src="item.img"></img>
-                </a>
+            <li v-for="(item,index) in posts" :class="{'active':now===index}" @mouseover="now = index" :style="style">
+                <img :src="item.img" @click="handleClick"></img>
             </li>
         </ul>
     </div>
 </template>
 <script>
 export default {
+    props: {
+        height: {
+            type: Number,
+            default: 300
+        }
+    },
     data() {
         return {
             isActive: true,    //是否激活动画
             now: 0,    //当前索引值
             interval: null,    //时间间隔器
             posts: [
-                {link:'javascript:void(0)', img: require('../../../assets/temp.jpg')},
-                {link:'javascript:void(0)', img: require('../../../assets/temp.jpg')},
-                {link:'javascript:void(0)', img: require('../../../assets/temp.jpg')},
-                {link:'javascript:void(0)', img: require('../../../assets/temp.jpg')},
-                {link:'javascript:void(0)', img: require('../../../assets/temp.jpg')}
+                {link:'javascript:void(0)', img: require('../../../assets/temp.png')},
+                {link:'javascript:void(0)', img: require('../../../assets/temp.png')},
+                {link:'javascript:void(0)', img: require('../../../assets/temp.png')},
+                {link:'javascript:void(0)', img: require('../../../assets/temp.png')},
+                {link:'javascript:void(0)', img: require('../../../assets/temp.png')}
             ]
         }
     },
@@ -42,6 +46,17 @@ export default {
             this.interval = setInterval(() => {
                 this.now = (this.now+1) >= this.posts.length ? 0 : this.now + 1;
             },3000);
+        },
+        handleClick() {
+            // 页面跳转
+        }
+    },
+    computed: {
+        style() {
+            let ret = {};
+            ret.height = `${this.height}px`;
+
+            return ret;
         }
     },
     mounted() {
@@ -55,7 +70,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.accordion {
+.v-accordion {
     overflow: hidden;
     ul {
         position: relative;
@@ -85,5 +100,12 @@ export default {
             }
         }
     }
+}
+
+img{
+    cursor: pointer;
+    height: 100%;
+    // width: 100%;
+
 }
 </style>

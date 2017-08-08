@@ -1,6 +1,6 @@
-# SPA后台管理系统
+# Vue2.0博客网站
 
-> 一个基于Vue2.0和Element-ui的SPA后台管理系统
+> 一个基于Vue2.0的博客网站
 
 ## Build Setup
 

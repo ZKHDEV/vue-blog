@@ -1,5 +1,5 @@
 <template>
-    <div class="assist-card">
+    <div class="assist-container">
         <ul class="accordion">
             <li>
                 <a class="acc-btn" href="javascript:void(0)" @click="showMenu(0)">
@@ -88,8 +88,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.assist-card {
-    background-color: #F2F2F2;
+.assist-container {
+    background-color: #FFFFFF;
 }
 
 ul {
