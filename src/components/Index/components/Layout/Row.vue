@@ -6,6 +6,16 @@
 <script>
 export default {
     componentName: 'VRow',
+    props: {
+        top: {
+            type: Number,
+            default: 0
+        },
+        bottom: {
+            type: Number,
+            default: 0
+        }
+    },
     computed: {
         gutter() {
             let parent = this.$parent;
@@ -21,6 +31,9 @@ export default {
                 style.marginLeft = `-${this.gutter / 2}px`;
                 style.marginRight = style.marginLeft;
             }
+
+            style.marginTop = `${this.top}px`;
+            style.marginBottom = `${this.bottom}px`;
 
             return style;
         }

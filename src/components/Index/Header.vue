@@ -38,7 +38,7 @@
             </ul>
         </v-col>
         <v-col :sm="2" :md="2" class="hidden-xs header-account">
-            <v-button v-if="!isLogin" class="account-btn" @click="handleLogin">登录/注册</v-button>
+            <v-button v-if="!isLogin" class="account-btn" @click="handleLogin" type="two" :height="40" :width="100" :fontSize="13">登录/注册</v-button>
             <a class="setting-btn" v-if="isLogin" href="javascript:void(0)" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
                 <img src=""></img>
                 <div class="setting-menu" v-show="showSetMenu">
@@ -136,7 +136,6 @@ export default {
 }
 
 .account-btn {
-    width: 80px;
     margin: 8px auto 0;
 }
 

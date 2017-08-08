@@ -1,8 +1,8 @@
 <template>
   <div class="home-container" v-title="'主页'">
-    <v-row class="acc-row">
+    <v-row :bottom="40">
       <v-col :md="12">
-        <v-card :height="300">
+        <v-card class="acc-card">
           <v-accordion></v-accordion>
         </v-card>
       </v-col>
@@ -34,7 +34,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.acc-row {
-  margin-bottom: 40px;
+.acc-card{
+  height: 300px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="v-card" :style="style">
+    <div class="v-inverse-card" :style="style">
         <slot></slot>
     </div>
 </template>
@@ -8,15 +8,15 @@ export default {
     props: {
         paddingVer: {
             type: Number,
-            default: 0
+            default: 50
         },
         paddingHor: {
             type: Number,
-            default: 0
+            default: 50
         },
         backgroundColor: {
             type: String,
-            default: '#FFFFFF'
+            default: '#F0EFEE'
         }
     },
     computed: {
@@ -33,9 +33,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.v-card {
+.v-inverse-card {
     border-radius: 6px;
     overflow: hidden;
-    box-shadow: 0 0 6px 0 rgba(#000000, 0.3);
+    box-shadow: 0 0 6px 0 rgba(#000000, 0.3) inset;
 }
 </style>

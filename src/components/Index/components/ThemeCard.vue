@@ -1,6 +1,8 @@
 <template>
-    <div class="v-card" :style="style">
-        <slot></slot>
+    <div class="v-theme-card">
+        <div :style="style">
+            <slot></slot>
+        </div>
     </div>
 </template>
 <script>
@@ -8,11 +10,11 @@ export default {
     props: {
         paddingVer: {
             type: Number,
-            default: 0
+            default: 50
         },
         paddingHor: {
             type: Number,
-            default: 0
+            default: 50
         },
         backgroundColor: {
             type: String,
@@ -33,9 +35,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.v-card {
+.v-theme-card {
+    padding: 12px 0;
     border-radius: 6px;
     overflow: hidden;
+    background: #FFFFFF url(../../../assets/ColorLine.jpg);
+    // background-position-x: -40px;
     box-shadow: 0 0 6px 0 rgba(#000000, 0.3);
 }
 </style>

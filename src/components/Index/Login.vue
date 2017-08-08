@@ -1,9 +1,9 @@
 <template>
     <div class="login-container" v-title="'登录'">
-        <div class="login-card">
+        <v-theme-card class="login-card" :padding-hor="50" :padding-ver="38">
             <div class="card-content">
                 <img class="logo"></img>
-                <div class="input-container">
+                <v-inverse-card class="input-card" :padding-hor="20" :padding-ver="0">
                     <div class="input-item">
                         <div class="input-group phone-input">
                             <i class="fa fa-user"></i>
@@ -14,15 +14,15 @@
                         <div class="input-group code-input">
                             <i class="fa fa-lock"></i>
                             <input ref="codeInput" name="code" placeholder="收到的验证码" autocomplete="off" v-model.trim="code">
-                            <a class="account-btn code-btn" href="javascript:void(0)" @click="sendCode">发送验证码</a>
+                            <v-button class="code-btn" type="four" :height="26" :width="90" :fontSize="10" @click="sendCode">发送验证码</v-button>
                         </div>
                     </div>
-                </div>
+                </v-inverse-card>
                 <p class="login-info" v-show="loginInfo">
                     <i class="fa fa-warning"></i>{{loginInfo}}</p>
-                <a class="account-btn login-btn" :class="{'disabled':logining}" href="javascript:void(0)" @click="submitLogin">{{loginBtnText}}</a>
+                <v-button class="login-btn" type="two" :height="48" :width="300" :fontSize="18" @click="submitLogin">{{loginBtnText}}</v-button>
             </div>
-        </div>
+        </v-theme-card>
     </div>
 </template>
 
@@ -81,6 +81,11 @@ export default {
         sendCode() {
             //TODO:发送手机验证码
         }
+    },
+    components: {
+        'v-theme-card': resolve => require(['./components/ThemeCard.vue'], resolve),
+        'v-inverse-card': resolve => require(['./components/InverseCard.vue'], resolve),
+        'v-button': resolve => require(['./components/Button.vue'], resolve),
     }
 }
 </script>
@@ -99,19 +104,9 @@ export default {
     position: relative;
     margin: 50vh auto 0;
     transform: translateY(-50%);
-    padding: 12px 0;
     width: 400px;
-    border-radius: 6px;
-    background: #FFFFFF url(../../assets/ColorLine.jpg);
     background-position-x: -40px;
-    box-shadow: 0 0 10px 0 rgba(#000000, 0.3);
     text-align: center;
-}
-
-.card-content {
-    padding: 38px 50px;
-    width: 300px;
-    background-color: #FFFFFF;
 }
 
 .logo {
@@ -119,22 +114,8 @@ export default {
     height: 80px;
 }
 
-.input-container {
+.input-card {
     margin-top: 50px;
-    padding: 0 20px;
-    position: relative;
-    background-color: #F0EFEE;
-    box-shadow: 0 0 6px 0 rgba(#000000, 0.3) inset;
-    width: 260px;
-    height: 100px;
-    border-radius: 6px;
-    text-align: left;
-    hr {
-        margin: 0;
-        height: 1px;
-        border: none;
-        border-top: 1px solid #CCCCCC;
-    }
 }
 
 .input-item {
@@ -173,6 +154,7 @@ export default {
     }
     &.code-input {
         top: 12px;
+        left: -5px;
         input {
             width: 102px;
         }
@@ -190,37 +172,10 @@ export default {
 
 .code-btn {
     float: right;
-    padding: 5px 15px;
-    font-size: 10px;
-    &:link,
-    &:visited {
-        background-color: #47B5CF;
-    }
-    &:hover,
-    &:active {
-        background-color: #39A2BC;
-    }
-    &.disabled {
-        background-color: #39A2BC;
-    }
 }
 
 .login-btn {
-    width: 300px;
-    padding: 12px 0;
     margin-top: 40px;
-    font-size: 18px;
-    &:link,
-    &:visited {
-        background-color: #E87261;
-    }
-    &:hover,
-    &:active {
-        background-color: #D3675A;
-    }
-    &.disabled {
-        background-color: #D3675A;
-    }
 }
 
 .login-info {
@@ -242,18 +197,13 @@ export default {
     }
     .login-card {
         width: 100%;
+        padding: 0!important;
         box-shadow: none;
         background: none;
     }
     .card-content {
-        padding: 38px 0;
-        width: 100%;
-        background-color: #FFFFFF;
-    }
-    .input-container,
-    .login-btn {
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: -40px;
+        margin-right: -40px;
     }
 }
 </style>
