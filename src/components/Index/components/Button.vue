@@ -1,5 +1,5 @@
 <template>
-    <button :class="['v-button',type,disabled?'disabled':'']" :style="style" type="button" @click="handleClick">
+    <button :class="['v-button',type,color,disabled?'disabled':'']" :style="style" type="button" @click="handleClick">
         <slot></slot>
     </button>
 </template>
@@ -7,6 +7,10 @@
 export default {
     props: {
         type: {
+            type: String,
+            default: 'default'
+        },
+        color: {
             type: String,
             default: 'one'
         },
@@ -29,15 +33,17 @@ export default {
     },
     methods: {
         handleClick() {
-            this.$emit('click')
+            if (!this.disabled) {
+                this.$emit('click');
+            }
         }
     },
     computed: {
         style() {
             let ret = {};
 
-            ['width','height','fontSize'].forEach(prop => {
-                if(typeof this[prop] === 'number'){
+            ['width', 'height', 'fontSize'].forEach(prop => {
+                if (typeof this[prop] === 'number') {
                     ret[prop] = `${this[prop]}px`;
                 } else {
                     ret[prop] = this[prop];
@@ -52,50 +58,68 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '../../../static/scss/variables.scss';
 .v-button {
     padding: 0;
-    border: none;
     border-radius: 3px;
-    color: #FFFFFF;
     text-align: center;
-    box-shadow: 0 0 6px 0 rgba(#000000, 0.3);
     outline: none;
     cursor: pointer;
-}
+    &.disabled {
+        cursor: default;
+        opacity: .5;
+    }
 
-.one{
-    background-color: #F99945;
-    &.disabled,
-    &:hover,
-    &:active {
-        background-color: #E58B40;
+    &.default {
+        color: #FFFFFF;
+        border: none;
+        box-shadow: $theme-box-shadow;
+    }
+
+    &.inverse {
+        border: solid 1px #FFFFFF;
+        background-color: transparent;
+        &.disabled,
+        &:hover,
+        &:active {
+            color: #FFFFFF;
+        }
     }
 }
 
-.two{
-    background-color: #E87261;
-    &.disabled,
-    &:hover,
-    &:active {
-        background-color: #D3675A;
+@mixin theme-btn($theme-color){
+    &.default {
+        background-color: $theme-color;
+        &.disabled,
+        &:hover,
+        &:active {
+            background-color: darken($theme-color,10%);
+        }
+    }
+    &.inverse {
+        border-color: $theme-color;
+        color: $theme-color;
+        &.disabled,
+        &:hover,
+        &:active {
+            background-color: $theme-color;
+        }
     }
 }
 
-.three{
-    background-color: #768F93;
-    &.disabled,
-    &:hover,
-    &:active {
-        background-color: #627676;
-    }
+.one {
+    @include theme-btn($theme-color-one);
 }
 
-.four{
-    background-color: #47B5CF;
-    &.disabled,
-    &:hover,
-    &:active {
-        background-color: #39A2BC;
-    }
+.two {
+    @include theme-btn($theme-color-two);
+}
+
+.three {
+    @include theme-btn($theme-color-three);
+}
+
+.four {
+    @include theme-btn($theme-color-four);
 }
 </style>

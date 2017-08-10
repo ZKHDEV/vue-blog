@@ -19,8 +19,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../static/scss/variables.scss';
 .index-container {
-    background-color: #F0EFEE;
+    background-color: $theme-background-color;
     padding-top: 100px;
 }
 </style>

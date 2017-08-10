@@ -3,7 +3,7 @@
         <v-theme-card class="login-card" :padding-hor="50" :padding-ver="38" :backPosX="-40">
             <div class="card-content">
                 <img class="logo"></img>
-                <v-inverse-card class="input-card" :padding-hor="20" :padding-ver="0">
+                <v-card class="input-card" type="inverse" :padding-hor="20" :padding-ver="0">
                     <div class="input-item">
                         <div class="input-group phone-input">
                             <i class="fa fa-user"></i>
@@ -14,13 +14,13 @@
                         <div class="input-group code-input">
                             <i class="fa fa-lock"></i>
                             <input ref="codeInput" name="code" placeholder="收到的验证码" autocomplete="off" v-model.trim="code">
-                            <v-button class="code-btn" type="four" :height="26" :width="90" :fontSize="10" @click="sendCode">发送验证码</v-button>
+                            <v-button class="code-btn" color="four" :height="26" :width="90" :fontSize="10" @click="sendCode">发送验证码</v-button>
                         </div>
                     </div>
-                </v-inverse-card>
+                </v-card>
                 <p class="login-info" v-show="loginInfo">
                     <i class="fa fa-warning"></i>{{loginInfo}}</p>
-                <v-button class="login-btn" type="two" :height="48" :width="300" :fontSize="18" @click="submitLogin">{{loginBtnText}}</v-button>
+                <v-button class="login-btn" color="two" :height="48" :width="300" :fontSize="18" @click="submitLogin">{{loginBtnText}}</v-button>
             </div>
         </v-theme-card>
     </div>
@@ -84,20 +84,21 @@ export default {
     },
     components: {
         'v-theme-card': resolve => require(['./components/ThemeCard.vue'], resolve),
-        'v-inverse-card': resolve => require(['./components/InverseCard.vue'], resolve),
+        'v-card': resolve => require(['./components/Card.vue'], resolve),
         'v-button': resolve => require(['./components/Button.vue'], resolve),
     }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../../static/scss/variables.scss';
 .login-container {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #F0EFEE;
+    background-color: $theme-background-color;
 }
 
 .login-card {
@@ -160,15 +161,6 @@ export default {
     }
 }
 
-.account-btn {
-    display: block;
-    border-radius: 3px;
-    color: #FFFFFF;
-    text-decoration: none;
-    text-align: center;
-    box-shadow: 0 0 6px 0 rgba(#000000, 0.3);
-}
-
 .code-btn {
     float: right;
 }
@@ -192,7 +184,7 @@ export default {
 
 @media (max-width:420px) {
     .login-container {
-        background: #FFFFFF url(../../assets/ColorLine.jpg);
+        background: #FFFFFF url('../../assets/' + $theme-lace-image-name);
     }
     .login-card {
         width: 100%;

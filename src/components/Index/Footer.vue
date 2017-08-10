@@ -37,11 +37,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../static/scss/variables.scss';
 .footer-container {
     height: 60px;
     line-height: 60px;
     margin-top: 100px;
-    background: #FFFFFF url(../../assets/ColorLine.jpg);
+    background: #FFFFFF url('../../assets/' + $theme-lace-image-name);
     background-repeat: repeat-x;
     background-position-y: 55px;
 }

@@ -1,11 +1,15 @@
 <template>
-    <div class="v-card" :style="style">
+    <div :class="['v-card',type]" :style="style">
         <slot></slot>
     </div>
 </template>
 <script>
 export default {
     props: {
+        type: {
+            type: String,
+            default: 'default'
+        },
         paddingVer: {
             type: Number,
             default: 0
@@ -14,10 +18,7 @@ export default {
             type: Number,
             default: 0
         },
-        backgroundColor: {
-            type: String,
-            default: '#FFFFFF'
-        }
+        backgroundColor: String
     },
     computed: {
         style() {
@@ -25,7 +26,10 @@ export default {
 
             ret.paddingLeft = ret.paddingRight = `${this.paddingHor}px`;
             ret.paddingTop = ret.paddingBottom = `${this.paddingVer}px`;
-            ret.backgroundColor = this.backgroundColor;
+            
+            if(this.backgroundColor){
+                ret.backgroundColor = this.backgroundColor;
+            }
 
             return ret;
         }
@@ -33,9 +37,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '../../../static/scss/variables.scss';
 .v-card {
     border-radius: 6px;
     overflow: hidden;
-    box-shadow: 0 0 6px 0 rgba(#000000, 0.3);
+}
+
+.default{
+    box-shadow: $theme-box-shadow;
+    background-color: #FFFFFF;
+}
+
+.inverse{
+    box-shadow: $theme-box-shadow inset;
+    background-color: $theme-background-color;
 }
 </style>

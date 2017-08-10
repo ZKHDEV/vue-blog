@@ -17,7 +17,7 @@
                 </div>
             </div>
         </template>
-        <v-button class="post-load" type="two" :height="40" :width="100" :fontSize="13">加载更多</v-button>
+        <v-button class="post-load" color="two" :height="40" :width="100" :fontSize="13">加载更多</v-button>
     </div>
 </template>
 <script>

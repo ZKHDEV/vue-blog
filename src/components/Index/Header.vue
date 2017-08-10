@@ -38,7 +38,7 @@
             </ul>
         </v-col>
         <v-col :sm="2" :md="2" class="hidden-xs header-account">
-            <v-button v-if="!isLogin" class="account-btn" @click="handleLogin" type="two" :height="40" :width="100" :fontSize="13">登录/注册</v-button>
+            <v-button v-if="!isLogin" class="account-btn" @click="handleLogin" color="two" :height="40" :width="100" :fontSize="13">登录/注册</v-button>
             <a class="setting-btn" v-if="isLogin" href="javascript:void(0)" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
                 <img src=""></img>
                 <div class="setting-menu" v-show="showSetMenu">
@@ -88,6 +88,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../static/scss/variables.scss';
 .header-container {
     position: fixed;
     top: 0;
@@ -96,7 +97,7 @@ export default {
     z-index: 9999;
     height: 55px;
     padding-top: 5px;
-    background: #FFFFFF url(../../assets/ColorLine.jpg);
+    background: #FFFFFF url('../../assets/' + $theme-lace-image-name);
     background-repeat: repeat-x;
     background-position-y: -10px;
     box-shadow: 0 0 10px 0 rgba(#000000, 0.3);
@@ -230,7 +231,7 @@ export default {
             }
         }
         &.active a {
-            color: #E87261;
+            color: $theme-color-two;
             &:link,
             &:visited,
             &:hover,
