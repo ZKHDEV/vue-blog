@@ -28,7 +28,7 @@ export default {
     computed: {
         themeStyle() {
             let ret = {};
-            ret.backgroundPositionX = `${this.backPosX}px`
+            ret.backgroundPositionX = `${this.backPosX}px`;
 
             return ret;
         },

@@ -21,11 +21,11 @@ const routes = [
         name: '/',
         component: resolve => require(['./components/Index/Home/Index.vue'], resolve)
       },
-      // {
-      //   path: 'post/:postId',
-      //   name: 'post',
-      //   component: resolve => require(['./components/Index/Post/Index.vue'], resolve)
-      // }
+      {
+        path: 'post/:postId',
+        name: 'post',
+        component: resolve => require(['./components/Index/Post/Index.vue'], resolve)
+      }
     ]
   },
   {

@@ -1,5 +1,5 @@
 <template>
-    <div class="assist-container">
+    <v-card class="v-assist-card">
         <ul class="accordion">
             <li>
                 <a class="acc-btn" href="javascript:void(0)" @click="showMenu(0)">
@@ -45,7 +45,7 @@
                 </transition>
             </li>
         </ul>
-    </div>
+    </v-card>
 </template>
 <script>
 import $ from 'jquery'
@@ -84,11 +84,15 @@ export default {
                 }, 300);
             }
         }
+    },
+    components: {
+        'v-card': resolve => require(['../components/Card.vue'], resolve),
     }
 }
 </script>
 <style lang="scss" scoped>
-.assist-container {
+@import '../../../static/scss/variables.scss';
+.v-assist-card {
     background-color: #FFFFFF;
 }
 
@@ -152,7 +156,7 @@ ul {
     }
 }
 
-@mixin acc-color($color:#E87261) {
+@mixin acc-color($color) {
     .acc-btn {
         background-color: $color;
     }
@@ -163,16 +167,20 @@ ul {
     }
 }
 
+.accordion>li:nth-child(1) {
+    @include acc-color($theme-color-two);
+}
+
 .accordion>li:nth-child(2) {
-    @include acc-color(#F99945);
+    @include acc-color($theme-color-one);
 }
 
 .accordion>li:nth-child(3) {
-    @include acc-color(#47B5CF);
+    @include acc-color($theme-color-four);
 }
 
 .accordion>li:nth-child(4) {
-    @include acc-color(#768F93);
+    @include acc-color($theme-color-three);
 }
 
 .share-content {

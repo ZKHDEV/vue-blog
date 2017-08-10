@@ -1,11 +1,11 @@
 <template>
-    <div class="v-accordion">
+    <v-card class="v-accordion-card">
         <ul :class="{'active':isActive}" @mouseover="stopAnimate" @mouseout="startAnimate">
             <li v-for="(item,index) in posts" :class="{'active':now===index}" @mouseover="now = index" :style="style">
                 <img :src="item.img" @click="handleClick"></img>
             </li>
         </ul>
-    </div>
+    </v-card>
 </template>
 <script>
 export default {
@@ -21,15 +21,15 @@ export default {
             now: 0,    //当前索引值
             interval: null,    //时间间隔器
             posts: [
-                {link:'javascript:void(0)', img: require('../../../assets/temp.png')},
-                {link:'javascript:void(0)', img: require('../../../assets/temp.png')},
-                {link:'javascript:void(0)', img: require('../../../assets/temp.png')},
-                {link:'javascript:void(0)', img: require('../../../assets/temp.png')},
-                {link:'javascript:void(0)', img: require('../../../assets/temp.png')}
+                { link: 'javascript:void(0)', img: require('../../../assets/temp.png') },
+                { link: 'javascript:void(0)', img: require('../../../assets/temp.png') },
+                { link: 'javascript:void(0)', img: require('../../../assets/temp.png') },
+                { link: 'javascript:void(0)', img: require('../../../assets/temp.png') },
+                { link: 'javascript:void(0)', img: require('../../../assets/temp.png') }
             ]
         }
     },
-    methods:{
+    methods: {
         //暂停动画
         stopAnimate() {
             this.isActive = false;
@@ -37,15 +37,15 @@ export default {
             this.interval = null;
         },
         //激活动画
-        startAnimate(){
+        startAnimate() {
             this.isActive = true;
             this.play();
         },
         //播放动画
         play() {
             this.interval = setInterval(() => {
-                this.now = (this.now+1) >= this.posts.length ? 0 : this.now + 1;
-            },3000);
+                this.now = (this.now + 1) >= this.posts.length ? 0 : this.now + 1;
+            }, 3000);
         },
         handleClick() {
             // 页面跳转
@@ -59,6 +59,9 @@ export default {
             return ret;
         }
     },
+    components: {
+        'v-card': resolve => require(['../components/Card.vue'], resolve),
+    },
     mounted() {
         //页面加载时开始播放动画
         this.play();
@@ -70,7 +73,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.v-accordion {
+.v-accordion-card {
     overflow: hidden;
     ul {
         position: relative;
@@ -102,10 +105,8 @@ export default {
     }
 }
 
-img{
+img {
     cursor: pointer;
-    height: 100%;
-    // width: 100%;
-
+    height: 100%; // width: 100%;
 }
 </style>

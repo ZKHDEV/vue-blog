@@ -8,7 +8,6 @@
     </div>
 </template>
 <script>
-import '../../static/css/style.css'
 export default {
     components: {
         'v-header': resolve => require(['./Header.vue'], resolve),

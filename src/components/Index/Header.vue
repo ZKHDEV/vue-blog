@@ -89,6 +89,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../static/scss/variables.scss';
+@import '../../static/scss/visible.scss';
 .header-container {
     position: fixed;
     top: 0;
