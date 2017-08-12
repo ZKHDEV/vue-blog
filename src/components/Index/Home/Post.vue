@@ -4,13 +4,13 @@
             <div class="post-item">
                 <img class="post-img" src=""></img>
                 <div class="post-note">
-                    <img src=""></img>
+                    <img src="" @click="handleAuthor"></img>
                     <span class="post-note-name">我的昵称</span>
                     <span class="post-note-time">1小时前</span>
                 </div>
-                <div class="post-title">
-                    <b>JavaScript 面向对象编程</b>
-                </div>
+                <h1 class="post-title">
+                    JavaScript 面向对象编程
+                </h1>
                 <div class="post-summary">面向对象编程就是将你的需求抽象成一个对象，针对这个对象分析其特征（属性）和动作（方法），这个对象称为“类”。JavaScript 的核心是支持面向对象的，同时它也提供了...</div>
                 <div class="post-info">
                     <i class="fa fa-eye"></i>116
@@ -24,6 +24,11 @@
 </template>
 <script>
 export default {
+    methods: {
+        handleAuthor() {
+
+        }
+    },
     components: {
         'v-button': resolve => require(['../components/Button.vue'], resolve),
         'v-theme-card': resolve => require(['../components/ThemeCard.vue'], resolve),
@@ -49,6 +54,7 @@ export default {
     height: 120px;
     width: 150px;
     border-radius: 3px;
+    cursor: pointer;
 }
 
 .post-note {
@@ -59,6 +65,7 @@ export default {
         height: 30px;
         width: 30px;
         border-radius: 15px;
+        cursor: pointer;
     }
     .post-note-name {
         float: left;
