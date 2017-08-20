@@ -30,19 +30,19 @@ export default {
         }
     },
     components: {
-        'v-container': resolve => require(['./components/Layout/Container.vue'], resolve),
-        'v-col': resolve => require(['./components/Layout/Col.vue'], resolve),
+        'v-container': resolve => require(['../components/Layout/Container.vue'], resolve),
+        'v-col': resolve => require(['../components/Layout/Col.vue'], resolve),
     }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../../static/scss/variables.scss';
+@import '../../../static/scss/variables.scss';
 .footer-container {
     height: 60px;
     line-height: 60px;
     margin-top: 100px;
-    background: #FFFFFF url('../../assets/' + $theme-lace-image-name);
+    background: #FFFFFF url('../../../assets/' + $theme-lace-image-name);
     background-repeat: repeat-x;
     background-position-y: 55px;
 }

@@ -86,8 +86,8 @@ export default {
 <style lang="scss" scoped>
 @import '../../../static/scss/variables.scss';
 .comment-field {
-    &::before,
-    &::after {
+    &:before,
+    &:after {
         display: table;
         content: '';
         clear: both;
@@ -130,8 +130,8 @@ export default {
         border-radius: 20px;
         cursor: pointer;
     }
-    &::before,
-    &::after {
+    &:before,
+    &:after {
         display: table;
         content: '';
         clear: both;
@@ -214,8 +214,8 @@ export default {
 
 .reply-form {
     margin-top: 20px;
-    &::before,
-    &::after {
+    &:before,
+    &:after {
         display: table;
         content: '';
         clear: both;

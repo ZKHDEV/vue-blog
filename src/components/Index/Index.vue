@@ -10,8 +10,8 @@
 <script>
 export default {
     components: {
-        'v-header': resolve => require(['./Header.vue'], resolve),
-        'v-footer': resolve => require(['./Footer.vue'], resolve),
+        'v-header': resolve => require(['./Module/Header.vue'], resolve),
+        'v-footer': resolve => require(['./Module/Footer.vue'], resolve),
         'v-container': resolve => require(['./components/Layout/Container.vue'], resolve)
     }
 }

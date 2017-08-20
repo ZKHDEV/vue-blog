@@ -60,8 +60,8 @@ export default {
         border-radius: 25px;
         cursor: pointer;
     }
-    &::before,
-    &::after {
+    &:before,
+    &:after {
         display: table;
         content: '';
         clear: both;

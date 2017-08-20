@@ -203,7 +203,7 @@ ul {
     height: 120px;
 }
 
-.share-content::after {
+.share-content:after {
     display: block;
     content: '';
     clear: both;

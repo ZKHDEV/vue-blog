@@ -42,15 +42,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .v-row {
+    position: relative;
     box-sizing: border-box;
 }
 .v-row:before,
 .v-row:after {
     display: table;
     content: " ";
-}
-
-.v-row:after {
     clear: both;
 }
 </style>

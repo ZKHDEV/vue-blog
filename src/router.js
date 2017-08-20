@@ -19,12 +19,17 @@ const routes = [
       {
         path: '',
         name: '/',
-        component: resolve => require(['./components/Index/Home/Index.vue'], resolve)
+        component: resolve => require(['./components/Index/Home.vue'], resolve)
       },
       {
         path: 'post/:postId',
         name: 'post',
-        component: resolve => require(['./components/Index/Post/Index.vue'], resolve)
+        component: resolve => require(['./components/Index/Post.vue'], resolve)
+      },
+      {
+        path: 'cate',
+        name: 'cate',
+        component: resolve => require(['./components/Index/Category.vue'], resolve)
       }
     ]
   },
