@@ -55,12 +55,12 @@ export default {
             return classList;
         },
         style() {
-            let style = {};
+            let ret = {};
 
-            style.paddingLeft = `${this.gutter / 2}px`;
-            style.paddingRight = style.paddingLeft;
+            ret.paddingLeft = `${this.gutter / 2}px`;
+            ret.paddingRight = ret.paddingLeft;
 
-            return style;
+            return ret;
         }
     }
 }

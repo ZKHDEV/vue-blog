@@ -1,16 +1,20 @@
 <template>
-  <textarea class="v-textarea" :style="style" :placeholder="placeholder"></textarea>
+    <input :type="type" class="v-input" :style="style" :placeholder="placeholder"/>
 </template>
 <script>
 export default {
-  props: {
-      placeholder: String,
-      height: {
-        type: Number,
-        default: 100
-      }
-  },
-  computed: {
+    props: {
+        placeholder: String,
+        type: {
+            type: String,
+            default: 'text'
+        },
+        height: {
+            type: Number,
+            default: 40
+        }
+    },
+    computed: {
         style() {
             let ret = {};
 
@@ -23,7 +27,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../../../static/scss/variables.scss';
-.v-textarea{
+.v-input {
     box-sizing: border-box;
     margin: 5px 0;
     padding: 12px 15px;
@@ -37,6 +41,5 @@ export default {
     vertical-align: top;
     color: #000000;
     font-size: 14px;
-    resize: none;
 }
 </style>

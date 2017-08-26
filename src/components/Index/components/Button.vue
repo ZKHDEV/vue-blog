@@ -29,6 +29,14 @@ export default {
         fontSize: {
             type: Number,
             default: 13
+        },
+        top: {
+            type: Number,
+            default: 0
+        },
+        bottom: {
+            type: Number,
+            default: 0
         }
     },
     methods: {
@@ -52,13 +60,14 @@ export default {
                 ret.paddingTop = ret.paddingBottom = `${this.paddingVer}px`;
             }
 
-            if(this.width) {
-                ret.width = `${this.width}px`;
-            }
+            ret.width = this.width ? `${this.width}px` : '100%';
 
             if(this.height) {
                 ret.lineHeight = ret.height = `${this.height}px`;
             }
+
+            ret.marginTop = `${this.top}px`;
+            ret.marginBottom = `${this.bottom}px`;
 
             return ret;
         }

@@ -30,6 +30,16 @@ const routes = [
         path: 'cate',
         name: 'cate',
         component: resolve => require(['./components/Index/Category.vue'], resolve)
+      },
+      {
+        path: 'gallery',
+        name: 'gallery',
+        component: resolve => require(['./components/Index/Gallery.vue'], resolve)
+      },
+      {
+        path: 'about',
+        name: 'about',
+        component: resolve => require(['./components/Index/About.vue'], resolve)
       }
     ]
   },

@@ -25,17 +25,17 @@ export default {
             return parent ? parent.gutter : 0;
         },
         style() {
-            let style = {};
+            let ret = {};
 
             if (this.gutter) {
-                style.marginLeft = `-${this.gutter / 2}px`;
-                style.marginRight = style.marginLeft;
+                ret.marginLeft = `-${this.gutter / 2}px`;
+                ret.marginRight = ret.marginLeft;
             }
 
-            style.marginTop = `${this.top}px`;
-            style.marginBottom = `${this.bottom}px`;
+            ret.marginTop = `${this.top}px`;
+            ret.marginBottom = `${this.bottom}px`;
 
-            return style;
+            return ret;
         }
     }
 }
