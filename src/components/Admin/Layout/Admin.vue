@@ -6,9 +6,9 @@
         <div class="right" :class="{ collapse: isCollapse }">
             <v-header @toggleMenu="toggleMenu"></v-header>
             <div class="container">
-                <!--<keep-alive>-->
+                <!-- <keep-alive> -->
                     <router-view></router-view>
-                <!--</keep-alive>-->
+                <!-- </keep-alive> -->
             </div>
         </div>
     </div>

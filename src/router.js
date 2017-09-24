@@ -68,12 +68,12 @@ const routes = [
       {
         path: 'post-new',
         name: 'admin-post-new',
-        component: resolve => require(['./components/Admin/Post/New.vue'], resolve)
+        component: resolve => require(['./components/Admin/Post/Write.vue'], resolve)
       },
       {
         path: 'post-edit/:postId',
         name: 'admin-post-edit',
-        component: resolve => require(['./components/Admin/Post/Edit.vue'], resolve)
+        component: resolve => require(['./components/Admin/Post/Write.vue'], resolve)
       },
       {
         path: 'category',

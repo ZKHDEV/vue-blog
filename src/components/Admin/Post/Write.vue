@@ -110,7 +110,7 @@ import { markdownEditor } from 'vue-simplemde'
 export default {
     data() {
         return {
-            post: {    //新文章实体
+            post: {    //文章实体
                 id: null,
                 title: '',
                 content: '',
@@ -212,14 +212,60 @@ export default {
                     this.cateList = response.data.data;
                 }
             });
+        },
+        //初始化文章对象
+        initPost(id){
+            if(id){
+                this.$http.get(`/post/get_post/${id}`).then((response) => {
+                    const resPost = response.data.data;
+                    this.post.id = resPost.id;
+                    this.post.dateTime = resPost.dateTime;
+                    this.post = {
+                        id: resPost.id,
+                        title: resPost.title,
+                        content: resPost.content,
+                        wordNum: resPost.wordNum,
+                        cover: resPost.cover,
+                        summary: resPost.summary,
+                        tagList: resPost.tagList,
+                        type: resPost.type,
+                        state: resPost.state,
+                        top: resPost.top,
+                        cateIds: resPost.cateIds,
+                        dateTime: resPost.dateTime
+                    };
+                });
+            } else {
+                this.post = {
+                    id: null,
+                    title: '',
+                    content: '',
+                    wordNum: 0,
+                    cover: '',
+                    summary: '',
+                    tagList: [],
+                    type: 0,
+                    state: 0,
+                    top: false,
+                    cateIds: [],
+                    dateTime: ''
+                }
+            }
         }
     },
     components: {
         'v-card': resolve => require(['../components/Card.vue'], resolve),
         markdownEditor
     },
+    watch: {
+        //解决从“编辑”跳转到“写文章”时组件被重用问题
+        '$route' (to, from) {
+            this.initPost();
+        }
+    },
     mounted() {
         this.initCateList();
+        this.initPost(this.$route.params.postId);
         this.$nextTick(()=>{
             // document.querySelector('.editor-toolbar').style.zIndex = 1001;
             // document.querySelector('.CodeMirror.cm-s-paper.CodeMirror-wrap').style.zIndex = 1001;

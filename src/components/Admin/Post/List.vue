@@ -142,13 +142,11 @@ export default {
       }).then(() => {
         this.$http.post('/post/delete_batch',ids).then((response) => {
           if(response.data.code === 0){
-            this.$message.success('删除成功');
+            this.$message.success('文章已移动到回收站');
             this.flushData();
           }
         });
-      }).catch(() => {
-        this.$message.info('已取消删除');
-      });
+      })
     },
     // 查看处理
     handleView(index, row) {
@@ -156,7 +154,7 @@ export default {
     },
     // 修改处理
     handleEdit(index, row) {
-      this.$router.push({ name: 'post-edit', params: { postId: row.id } });
+      this.$router.push({ name: 'admin-post-edit', params: { postId: row.id } });
     },
     // 删除处理
     handleDelete(id) {
@@ -167,13 +165,11 @@ export default {
       }).then(() => {
         this.$http.get(`/post/delete/${id}`).then((response) => {
           if(response.data.code === 0){
-            this.$message.success('删除成功');
+            this.$message.success('文章已移动到回收站');
             this.flushData();
           }
         });
-      }).catch(() => {
-        this.$message.info('已取消删除');
-      });
+      })
     },
     // 页码改变处理
     handleCurrentChange(val) {
@@ -220,7 +216,6 @@ export default {
           this.total = page.total;
           this.datas = page.data;
         }
-        console.log(response.data);
         this.loading = false;
       }).catch((err) => {
         this.loading = false;
@@ -231,7 +226,6 @@ export default {
     initCateList() {
       this.$http.get('/cate/get_select').then((response) => {
         for(let cate of response.data.data){
-          console.log(cate);
           this.cateSet.push(cate);
         }
       });
