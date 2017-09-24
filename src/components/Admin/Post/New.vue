@@ -9,7 +9,7 @@
                 <!--标题模块结束-->
                 <!--正文模块开始-->
                 <v-card class="padding-card">
-                    <markdown-editor v-model="post.content" ref="markdownEditor"></markdown-editor>
+                    <markdown-editor v-model="post.content" ref="markdownEditor" :highlight="true"></markdown-editor>
                 </v-card>
                 <!--正文模块结束-->
                 <!--摘要模块开始-->
@@ -32,7 +32,7 @@
                     <div class="card-header">
                         <p class="card-title">
                             <b>发布</b>
-                            <el-button type="success" size="small">保存草稿</el-button>
+                            <el-button type="success" size="small" @click="savePost">保存草稿</el-button>
                             <el-button size="small">预览</el-button>
                         </p>
                     </div>
@@ -46,17 +46,18 @@
                         </div>
                         <div>
                             <i class="fa fa-chevron-circle-up"></i>置顶：
-                                <el-switch v-model="post.top" :on-value="1" :off-value="0" on-text="是" off-text="否"></el-switch>
+                                <el-switch v-model="post.top" :on-value="true" :off-value="false" on-text="是" off-text="否"></el-switch>
                         </div>
                         <div>
-                            <i class="fa fa-eye"></i>状态：{{post.type === 0 ? '草稿' : '已发布'}}
+                            <i class="fa fa-eye"></i>状态：{{post.state === 0 ? '草稿' : '已发布'}}
                         </div>
-                        <div v-if="post.mtime">
-                            <i class="fa fa-calendar"></i>保存时间：{{post.mtime}}
+                        <div v-show="post.dateTime">
+                            <i class="fa fa-calendar"></i>保存时间：{{post.dateTime}}
                         </div>
                     </div>
                     <div class="card-operation">
-                        <el-button type="primary" size="small">发 布</el-button>
+                        <el-button type="primary" size="small" v-show="post.state === 0" :disabled="post.id == null" @click="publishPost">发布最新版本</el-button>
+                        <el-button type="danger" size="small" v-show="post.state === 1" :disabled="post.id == null" @click="unPublishPost">取消发布</el-button>
                     </div>
                 </v-card>
                 <!--发布模块结束-->
@@ -69,15 +70,15 @@
                     </div>
                     <div class="card-content">
                         <div class="cate-list">
-                            <el-checkbox-group v-model="post.categories">
-                                <el-checkbox v-for="cate in cateList" :label="cate.id">{{cate.name}}</el-checkbox>
+                            <el-checkbox-group v-model="post.cateIds">
+                                <el-checkbox v-for="cate in cateList" :label="cate.val">{{cate.txt}}</el-checkbox>
                             </el-checkbox-group>
                         </div>
                         <el-button type="text" class="add-cate-btn" @click="showCateInput">
                             <i class="fa fa-plus"></i>新建分类</el-button>
                         <div class="cate-form" v-show="showAddCate">
                             <el-input ref="saveCateInput" v-model="newCate" placeholder="新分类名"></el-input>
-                            <el-button>添加新分类</el-button>
+                            <el-button @click="handleCateSave">添加新分类</el-button>
                         </div>
                     </div>
                 </v-card>
@@ -90,7 +91,7 @@
                         </p>
                     </div>
                     <div class="card-content">
-                        <el-tag :key="tag" v-for="tag in post.tags" :closable="true" :close-transition="false" @close="handleTagDel(tag)">
+                        <el-tag :key="tag" v-for="tag in post.tagList" :closable="true" :close-transition="false" @close="handleTagDel(tag)">
                             {{tag}}
                         </el-tag>
                         <el-input class="input-new-tag" v-if="showAddTag" v-model="newTag" ref="saveTagInput" size="mini" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm">
@@ -110,19 +111,22 @@ export default {
     data() {
         return {
             post: {    //新文章实体
+                id: null,
                 title: '',
                 content: '',
+                wordNum: 0,
+                cover: '',
                 summary: '',
+                tagList: [],
                 type: 0,
-                public: 0,
-                categories: [],
-                tags: ['标签tag1'],
-                mtime: '2017-06-29',
-                top: 0
+                state: 0,
+                top: false,
+                cateIds: [],
+                dateTime: '',
             },
+            cateList: [],
             showAddCate: false,    //显示新建分类表单
             showAddTag: false,    //显示新建标签表单
-            cateList: [{ id: 1, name: '分类1' }, { id: 2, name: '分类2' }, { id: 3, name: '分类3' }],    //分类列表
             newCate: '',    //新建分类名称
             newTag: '',    //新建标签名
         }
@@ -132,12 +136,24 @@ export default {
         showCateInput() {
             this.showAddCate = true;
             this.$nextTick(() => {
-                this.$ref.saveCateInput.focus();
+                this.$refs.saveCateInput.$el.children[0].focus();
+            });
+        },
+        handleCateSave() {
+            this.$http.post('/cate/save', {id:null, label:this.newCate}).then((response) => {
+                if(response.data.code === 0){
+                    this.cateList.push(response.data.data);
+                    this.newCate = '';
+                    this.showAddCate = false;
+                } else {
+                    this.$message.error(response.data.msg);
+                    this.$refs.saveCateInput.$el.children[0].select();
+                }
             });
         },
         //标签模块业务逻辑
         handleTagDel(tag) {
-            this.post.tags.splice(this.post.tags.indexOf(tag), 1);
+            this.post.tagList.splice(this.post.tagList.indexOf(tag), 1);
         },
         showTagInput() {
             this.showAddTag = true;
@@ -146,12 +162,56 @@ export default {
             });
         },
         handleInputConfirm() {
-            let inputValue = this.newTag;
-            if (inputValue) {
-                this.post.tags.push(inputValue);
+            for(let tag in this.post.tagList){
+                if(tag === this.newTag){
+                    this.$message.error("标签已存在");
+                    return;
+                }
             }
+
+            this.post.tagList.push(this.newTag);
             this.showAddTag = false;
             this.newTag = '';
+        },
+        //保存文章
+        savePost() {
+            this.post.state = 0;
+            this.$http.post('/post/save', this.post).then((response) => {
+                if(response.data.code === 0){
+                    const resPost = response.data.data;
+                    this.post.id = resPost.id;
+                    this.post.dateTime = resPost.dateTime;
+                    this.$message.success('保存成功');
+                } else {
+                    this.$message.error(response.data.msg);
+                }
+            });
+        },
+        //发布文章
+        publishPost() {
+            this.$http.get(`/post/publish/${this.post.id}`).then((response) => {
+                if(response.data.code === 0){
+                    this.post.state = 1;
+                    this.$message.success('发布成功');
+                }
+            });
+        },
+        //取消发布文章
+        unPublishPost() {
+            this.$http.get(`/post/unpublish/${this.post.id}`).then((response) => {
+                if(response.data.code === 0){
+                    this.post.state = 0;
+                    this.$message.success('取消发布成功');
+                }
+            });
+        },
+        //初始化分类列表
+        initCateList() {
+            this.$http.get('/cate/get_select').then((response) => {
+                if(response.data.code === 0){
+                    this.cateList = response.data.data;
+                }
+            });
         }
     },
     components: {
@@ -159,9 +219,10 @@ export default {
         markdownEditor
     },
     mounted() {
+        this.initCateList();
         this.$nextTick(()=>{
-            document.querySelector('.editor-toolbar').style.zIndex = 1001;
-            document.querySelector('.CodeMirror.cm-s-paper.CodeMirror-wrap').style.zIndex = 1001;
+            // document.querySelector('.editor-toolbar').style.zIndex = 1001;
+            // document.querySelector('.CodeMirror.cm-s-paper.CodeMirror-wrap').style.zIndex = 1001;
         });
     }
 }

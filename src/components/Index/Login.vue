@@ -55,10 +55,10 @@ export default {
                     this.loginBtnText = '登录中...';
                     this.logining = true;
                     //发送登录请求
-                    this.$http.post('/account/login', { phone: this.phone, code: this.code }).then((response) => {
-                        if (response.data.code === 200) {
+                    this.$http.post('/login', { phone: this.phone, code: this.code }).then((response) => {
+                        if (response.data.code === 0) {
                             //保存登录状态
-                            this.$store.commit(types.LOGIN, response.data.token);
+                            this.$store.commit(types.LOGIN, response.data.data);
                             //跳转到登录前页面或主页
                             const redirect = decodeURIComponent(this.$route.query.redirect || '/');
                             this.$router.push({
@@ -68,7 +68,7 @@ export default {
                         } else {
                             this.loginBtnText = '登录';
                             this.logining = false;
-                            this.loginInfo = response.data.info;
+                            this.loginInfo = response.data.msg;
                         }
                     }).catch((err) => {
                         this.loginBtnText = '登录';
@@ -79,7 +79,8 @@ export default {
             }
         },
         sendCode() {
-            //TODO:发送手机验证码
+            //TODO:发送手机验证码并开始倒计时
+            this.$http.get(`/send_code/${this.phone}`);
         }
     },
     components: {

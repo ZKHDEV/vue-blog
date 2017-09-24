@@ -66,8 +66,13 @@ export default {
                 ret.lineHeight = ret.height = `${this.height}px`;
             }
 
-            ret.marginTop = `${this.top}px`;
-            ret.marginBottom = `${this.bottom}px`;
+            if(this.top){
+                ret.marginTop = `${this.top}px`;
+            }
+
+            if(this.bottom){
+                ret.marginBottom = `${this.bottom}px`;
+            }
 
             return ret;
         }

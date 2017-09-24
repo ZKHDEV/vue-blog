@@ -6,14 +6,14 @@
           <el-form-item label="标题" prop="title">
             <el-input v-model="search.title" placeholder="标题"></el-input>
           </el-form-item>
-          <el-form-item label="分类" prop="group">
-            <el-select v-model="search.group" placeholder="请选择分类">
-              <el-option v-for="item in groups" :key="item.val" :label="item.txt" :value="item.val">
+          <el-form-item label="分类" prop="cateId">
+            <el-select v-model="search.cateId" placeholder="请选择分类">
+              <el-option v-for="item in cateSet" :key="item.val" :label="item.txt" :value="item.val">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="标签" prop="tag">
-            <el-input v-model="search.tag" placeholder="标签"></el-input>
+          <el-form-item label="标签" prop="tags">
+            <el-input v-model="search.tags" placeholder="标签"></el-input>
           </el-form-item>
           <el-form-item label="置顶" prop="top">
             <el-select v-model="search.top" placeholder="是否置顶">
@@ -22,7 +22,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="日期" prop="daterange">
-            <el-date-picker v-model="search.daterange" type="daterange" placeholder="选择日期范围">
+            <el-date-picker v-model="daterange" type="daterange" placeholder="选择日期范围">
             </el-date-picker>
           </el-form-item>
           <el-form-item>
@@ -38,29 +38,34 @@
         </el-table-column>
         <el-table-column prop="title" label="标题" width="150" sortable="custom">
         </el-table-column>
-        <el-table-column prop="group" label="分类" width="100">
+        <el-table-column prop="categories" label="分类" width="100">
         </el-table-column>
-        <el-table-column prop="tag" label="标签" width="120">
+        <el-table-column prop="tags" label="标签" width="120">
         </el-table-column>
-        <el-table-column prop="comment" label="评论" width="90" sortable="custom">
+        <el-table-column prop="commentNum" label="评论" width="90" sortable="custom">
         </el-table-column>
-        <el-table-column prop="like" label="赞" width="80" sortable="custom">
+        <el-table-column prop="likeNum" label="赞" width="80" sortable="custom">
         </el-table-column>
-        <el-table-column prop="click" label="点击" width="90" sortable="custom">
+        <el-table-column prop="readNum" label="点击" width="90" sortable="custom">
+        </el-table-column>
+        <el-table-column prop="state" label="状态" width="85">
+          <template scope="scope">
+            {{scope.row.state === 1 ? '发布' : '草稿'}}
+          </template>
         </el-table-column>
         <el-table-column prop="top" label="置顶" width="85">
           <template scope="scope">
             <el-switch v-model="scope.row.top" :on-value="1" :off-value="0" on-text="" off-text=""></el-switch>
           </template>
         </el-table-column>
-        <el-table-column prop="date" label="日期" show-overflow-tooltip sortable="custom">
+        <el-table-column prop="startTime" label="日期" show-overflow-tooltip sortable="custom">
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="170">
           <template scope="scope">
             <el-button-group>
               <el-button @click="handleView(scope.row.id)" type="primary" size="small">查看</el-button>
               <el-button @click="handleEdit(scope.$index, scope.row)" type="success" size="small">编辑</el-button>
-              <el-button @click="handleDelete(scope.$index, scope.row)" type="danger" size="small">回收</el-button>
+              <el-button @click="handleDelete(scope.row.id)" type="danger" size="small">回收</el-button>
             </el-button-group>
           </template>
         </el-table-column>
@@ -70,7 +75,7 @@
           <el-button type="danger" :disabled="disDelete" @click="handleDeleteSelection">移至回收站</el-button>
           <el-button type="text" :disabled="disDelete" @click="handleReverseSelection">反选</el-button>
         </div>
-        <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="1000">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="0" :page-size="15" layout="total, sizes, prev, pager, next, jumper" :total="total" :page-sizes="pageSizes">
         </el-pagination>
       </div>
     </v-card>
@@ -78,30 +83,30 @@
 </template>
 
 <script>
+import {toDateString} from '../../../static/js/utils.js'
 export default {
   data() {
     return {
       search: {
-        date: null,
-        daterange: null,
         title: '',
-        group: null,
-        tag: '',
-        top: null
+        cateId: '',
+        tags: '',
+        top: null,
+        start: '',
+        end: '',
+        pageNum: 1,
+        pageSize: 15,
+        asc: true,
+        orderCol: 'startTime'
       },
-      filter: null,
-      datas: [{ id: 1, title: 'TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle', group: 'Group', tag: 'Tag', comment: 'Comment', like: 'Like', click: 'Click', top: 1, date: 'Date' },
-      { id: 2, title: 'Title', group: 'Group', tag: 'Tag', comment: 'Comment', like: 'Like', click: 'Click', top: 0, date: 'Date' },
-      { id: 3, title: 'Title', group: 'Group', tag: 'Tag', comment: 'Comment', like: 'Like', click: 'Click', top: 0, date: 'Date' }],
-      order: {
-        prop: 'date',
-        order: 'descending'
-      },
+      daterange: null,
+      cateSet: [''],
+      total: 0,
+      pageSizes: [15, 20, 50, 100],
+      datas: null,
       multipleSelection: [],
-      currentPage: 1,
       disDelete: true,
-      loading: false,
-      groups: [{txt:'',val:null}, {txt:'Group1',val:1}, {txt:'Group2',val:2}, {txt:'Group2',val:2}],    //全部分类列表
+      loading: false
     }
   },
 
@@ -114,6 +119,7 @@ export default {
         duration: 6000
       });
     },
+    // 复选框选中改变
     handleSelectionChange(val) {
       this.disDelete = val.length == 0;
       this.multipleSelection = val;
@@ -124,9 +130,25 @@ export default {
     },
     // 批量删除
     handleDeleteSelection() {
-      for (let item in this.multipleSelection) {
-        //TODO: 服务端删除各项内容
+      let ids = [];
+      for (let item of this.multipleSelection) {
+        ids.push(item.id);
       }
+
+      this.$confirm('确定删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.post('/post/delete_batch',ids).then((response) => {
+          if(response.data.code === 0){
+            this.$message.success('删除成功');
+            this.flushData();
+          }
+        });
+      }).catch(() => {
+        this.$message.info('已取消删除');
+      });
     },
     // 查看处理
     handleView(index, row) {
@@ -137,73 +159,87 @@ export default {
       this.$router.push({ name: 'post-edit', params: { postId: row.id } });
     },
     // 删除处理
-    handleDelete(index, row) {
+    handleDelete(id) {
       this.$confirm('确定删除?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message.success('删除成功');
+        this.$http.get(`/post/delete/${id}`).then((response) => {
+          if(response.data.code === 0){
+            this.$message.success('删除成功');
+            this.flushData();
+          }
+        });
       }).catch(() => {
         this.$message.info('已取消删除');
       });
     },
-    handleCurrentChange() {
-      this.getData();
+    // 页码改变处理
+    handleCurrentChange(val) {
+      this.search.pageNum = val;
+      this.flushData();
     },
+    // 页面显示记录数改变处理
+    handleSizeChange(val) {
+      this.search.pageNum = 1;
+      this.search.pageSize = val;
+      this.flushData();
+    },
+    // 搜索
     handleSearch() {
-      this.currentPage = 1;
-      this.order = {
-        prop: 'date',
-        order: 'descending'
-      }
+      this.search.pageNum = 1;
+      this.search.asc = true;
+      this.search.orderCol = 'startTime';
 
       // 格式化时间段
-      this.search.daterange && (this.search.date = [toDateString(this.search.daterange[0]),toDateString(this.search.daterange[1])]);
-      this.getData();
+      if(this.daterange){
+        this.search.start = toDateString(this.daterange[0]);
+        this.search.end = toDateString(this.daterange[1]);
+      }
+
+      this.flushData();
     },
+    // 重置搜索
     resetSearch() {
       this.$refs.searchForm.resetFields();
     },
+    // 排序规则改变处理
     sortChange({ prop, order }) {
-      this.order = {
-        prop: prop,
-        order: order
-      }
-      this.currentPage = 1;
-      this.getData();
+      this.search.pageNum = 1;
+      this.search.asc = order === 'descending' ? false : true;
+      this.search.orderCol = prop ? prop : 'startTime';
+      this.flushData();
     },
-    getData() {
-      const condition = {
-        page: this.currentPage,
-        order: this.order,
-        filter: this.filter
-      }
-      // this.loading = true;
-      // this.$http.get('/api/user', condition).then((response) => {
-      //   this.datas = response.data.datas;
-      // });
-      // 测试
-      // this.$http.get('/api/user').then((response) => {
-      //   setTimeout(() => {
-      //     this.loading = false;
-      //     //测试
-      //     this.datas = response.data.datas;
-      //     // if (response.data.success) {
-      //     //   this.datas = response.data.datas;
-      //     // }
-      //   }, 1000);
-      // }).catch((err) => {
-      //   this.loading = false;
-      //   this.datas = [];
-      // });
+    // 刷新数据
+    flushData() {
+      this.loading = true;
+      this.$http.post('/post/search', this.search).then((response) => {
+        if(response.data.code === 0){
+          const page = response.data.data;
+          this.total = page.total;
+          this.datas = page.data;
+        }
+        console.log(response.data);
+        this.loading = false;
+      }).catch((err) => {
+        this.loading = false;
+        this.datas = null;
+      })
+    },
+    // 初始化分类列表
+    initCateList() {
+      this.$http.get('/cate/get_select').then((response) => {
+        for(let cate of response.data.data){
+          console.log(cate);
+          this.cateSet.push(cate);
+        }
+      });
     }
   },
-
-  created() {
-    // this.$http.get('/api/user').then((response) => {
-    //   this.datas = response.data.datas;
-    // });
+  mounted() {
+    this.initCateList();
+    this.flushData();
   },
 
   components: {
