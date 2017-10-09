@@ -1,37 +1,80 @@
 <template>
     <v-theme-card class="v-post-card" :paddingVer="20" :paddingHor="20">
-        <template v-for="item in 6">
+        <template v-for="post in postList">
             <div class="post-item">
-                <img class="post-img" src=""></img>
+                <img class="post-img" :src="post.cover"></img>
                 <div class="post-note">
-                    <img src="" @click="handleAuthor"></img>
-                    <span class="post-note-name">我的昵称</span>
-                    <span class="post-note-time">1小时前</span>
+                    <img :src="user.avatar" @click="handleAuthor"></img>
+                    <span class="post-note-name">{{user.nickName ? user.nickName : user.phone}}</span>
+                    <span class="post-note-time">{{post.dateTime}}</span>
                 </div>
-                <h1 class="post-title">
-                    JavaScript 面向对象编程
-                </h1>
-                <div class="post-summary">面向对象编程就是将你的需求抽象成一个对象，针对这个对象分析其特征（属性）和动作（方法），这个对象称为“类”。JavaScript 的核心是支持面向对象的，同时它也提供了...</div>
+                <router-link class="post-link" :to="{ name: 'post', params: { postId: post.id } }">
+                    <h1 class="post-title">{{post.title}}</h1>
+                </router-link>
+                <!-- <h1 class="post-title" @click="showPost(post.id)">{{post.title}}</h1> -->
+                <div class="post-summary">{{post.summary}}...</div>
                 <div class="post-info">
-                    <i class="fa fa-eye"></i>116
-                    <i class="fa fa-comment"></i>10
-                    <i class="fa fa-heart"></i>56
+                    <i class="fa fa-eye"></i>{{post.readNum}}
+                    <i class="fa fa-comment"></i>{{post.commentNum}}
+                    <i class="fa fa-heart"></i>{{post.likeNum}}
                 </div>
             </div>
         </template>
-        <v-button class="post-load" color="two" :height="40" :width="100" :fontSize="13">加载更多</v-button>
+        <v-button class="post-load" v-show="postList.length !== total" color="two" :height="40" :width="100" :fontSize="13" @click="loadMore">加载更多</v-button>
     </v-theme-card>
 </template>
 <script>
 export default {
+    data() {
+        return {
+            user: null,
+            postList: [],
+            currentPage: 0,
+            total: 0
+        }
+    },
     methods: {
         handleAuthor() {
 
+        },
+        showPost(id){
+            this.$router.push({ name: 'post', params: { postId: id } });
+        },
+        //初始化文章卡片
+        initCard() {
+            const phone = this.$route.params.phone;
+            this.$http.get(`/get_user/${phone}`).then((response) => {
+                if(response.data.code === 0){
+                    this.user = response.data.data;
+                    this.loadMore();
+                } else {
+                    //TODO:若用户不存在跳转到错误页面
+                }
+            });
+        },
+        loadMore() {
+            this.currentPage++;
+            this.$http.get(`/post/get_six_post/${this.user.phone}/${this.currentPage}`).then((response) => {
+                if(response.data.code === 0){
+                    const page = response.data.data;
+                    if(this.postList.length === 0){
+                        this.postList = page.data;
+                        this.total = page.total;
+                    } else {
+                        for(let post of page.data){
+                            this.postList.push(post);
+                        }
+                    }
+                }
+            });
         }
     },
     components: {
         'v-button': resolve => require(['../components/Button.vue'], resolve),
         'v-theme-card': resolve => require(['../components/ThemeCard.vue'], resolve),
+    },
+    mounted() {
+        this.initCard();
     }
 }
 </script>
@@ -75,6 +118,18 @@ export default {
         float: left;
         margin-left: 10px;
         color: #999999;
+    }
+}
+
+.post-link{
+    color: #000000;
+    &:link,
+    &:visited{
+        text-decoration: none;
+    }
+    &:hover,
+    &:active {
+        text-decoration: underline;
     }
 }
 

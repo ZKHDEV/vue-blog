@@ -18,9 +18,9 @@
                     <router-link :to="{name:'admin-category'}">
                         <el-menu-item index="3">分类目录</el-menu-item>
                     </router-link>
-                    <router-link :to="{name:'admin-recycle'}">
+                    <!-- <router-link :to="{name:'admin-recycle'}">
                         <el-menu-item index="4">回收站</el-menu-item>
-                    </router-link>
+                    </router-link> -->
                 </el-submenu>
             </el-menu-item-group>
             <el-menu-item-group title="">

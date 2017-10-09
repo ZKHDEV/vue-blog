@@ -17,7 +17,13 @@
           </el-form-item>
           <el-form-item label="置顶" prop="top">
             <el-select v-model="search.top" placeholder="是否置顶">
-              <el-option v-for="item in [{txt:'',val:null},{txt:'是',val:1},{txt:'否',val:0}]" :key="item.val" :label="item.txt" :value="item.val">
+              <el-option v-for="item in [{txt:'',val:null},{txt:'是',val:true},{txt:'否',val:false}]" :key="item.val" :label="item.txt" :value="item.val">
+              </el-option>
+            </el-select>
+          </el-form-item>
+           <el-form-item label="状态" prop="state">
+            <el-select v-model="search.state" placeholder="是否发布">
+              <el-option v-for="item in [{txt:'',val:null},{txt:'发布',val:1},{txt:'草稿',val:0}]" :key="item.val" :label="item.txt" :value="item.val">
               </el-option>
             </el-select>
           </el-form-item>
@@ -55,10 +61,10 @@
         </el-table-column>
         <el-table-column prop="top" label="置顶" width="85">
           <template scope="scope">
-            <el-switch v-model="scope.row.top" :on-value="1" :off-value="0" on-text="" off-text=""></el-switch>
+            <el-switch v-model="scope.row.top" :on-value="true" :off-value="false" on-text="" off-text=""></el-switch>
           </template>
         </el-table-column>
-        <el-table-column prop="startTime" label="日期" show-overflow-tooltip sortable="custom">
+        <el-table-column prop="createDate" label="日期" show-overflow-tooltip sortable="custom">
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="170">
           <template scope="scope">
@@ -92,12 +98,13 @@ export default {
         cateId: '',
         tags: '',
         top: null,
+        state: null,
         start: '',
         end: '',
         pageNum: 1,
         pageSize: 15,
         asc: true,
-        orderCol: 'startTime'
+        orderCol: 'createDate'
       },
       daterange: null,
       cateSet: [''],
@@ -140,7 +147,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.post('/post/delete_batch',ids).then((response) => {
+        this.$http.post('/admin_post/delete_batch',ids).then((response) => {
           if(response.data.code === 0){
             this.$message.success('文章已移动到回收站');
             this.flushData();
@@ -163,7 +170,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.get(`/post/delete/${id}`).then((response) => {
+        this.$http.get(`/admin_post/delete/${id}`).then((response) => {
           if(response.data.code === 0){
             this.$message.success('文章已移动到回收站');
             this.flushData();
@@ -186,7 +193,7 @@ export default {
     handleSearch() {
       this.search.pageNum = 1;
       this.search.asc = true;
-      this.search.orderCol = 'startTime';
+      this.search.orderCol = 'createDate';
 
       // 格式化时间段
       if(this.daterange){
@@ -210,7 +217,7 @@ export default {
     // 刷新数据
     flushData() {
       this.loading = true;
-      this.$http.post('/post/search', this.search).then((response) => {
+      this.$http.post('/admin_post/search', this.search).then((response) => {
         if(response.data.code === 0){
           const page = response.data.data;
           this.total = page.total;
@@ -224,7 +231,7 @@ export default {
     },
     // 初始化分类列表
     initCateList() {
-      this.$http.get('/cate/get_select').then((response) => {
+      this.$http.get('/cate/get_all_kv_list').then((response) => {
         for(let cate of response.data.data){
           this.cateSet.push(cate);
         }

@@ -2,7 +2,9 @@
     <div class="index-container">
         <v-header></v-header> 
         <v-container>
-            <router-view></router-view>
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
         </v-container>
         <v-footer></v-footer>
     </div>

@@ -51,13 +51,13 @@
                         <div>
                             <i class="fa fa-eye"></i>状态：{{post.state === 0 ? '草稿' : '已发布'}}
                         </div>
-                        <div v-show="post.dateTime">
-                            <i class="fa fa-calendar"></i>保存时间：{{post.dateTime}}
+                        <div v-show="post.verDate">
+                            <i class="fa fa-calendar"></i>保存时间：{{post.verDate}}
                         </div>
                     </div>
                     <div class="card-operation">
-                        <el-button type="primary" size="small" v-show="post.state === 0" :disabled="post.id == null" @click="publishPost">发布最新版本</el-button>
-                        <el-button type="danger" size="small" v-show="post.state === 1" :disabled="post.id == null" @click="unPublishPost">取消发布</el-button>
+                        <el-button type="danger" size="small" :disabled="post.id == null || post.state === 0" @click="unPublishPost">取消发布</el-button>                        
+                        <el-button type="primary" size="small" :disabled="post.id == null" @click="publishPost">发布最新版本</el-button>
                     </div>
                 </v-card>
                 <!--发布模块结束-->
@@ -114,7 +114,6 @@ export default {
                 id: null,
                 title: '',
                 content: '',
-                wordNum: 0,
                 cover: '',
                 summary: '',
                 tagList: [],
@@ -122,7 +121,7 @@ export default {
                 state: 0,
                 top: false,
                 cateIds: [],
-                dateTime: '',
+                verDate: '',
             },
             cateList: [],
             showAddCate: false,    //显示新建分类表单
@@ -176,11 +175,11 @@ export default {
         //保存文章
         savePost() {
             this.post.state = 0;
-            this.$http.post('/post/save', this.post).then((response) => {
+            this.$http.post('/admin_post/save', this.post).then((response) => {
                 if(response.data.code === 0){
                     const resPost = response.data.data;
                     this.post.id = resPost.id;
-                    this.post.dateTime = resPost.dateTime;
+                    this.post.verDate = resPost.verDate;
                     this.$message.success('保存成功');
                 } else {
                     this.$message.error(response.data.msg);
@@ -189,7 +188,7 @@ export default {
         },
         //发布文章
         publishPost() {
-            this.$http.get(`/post/publish/${this.post.id}`).then((response) => {
+            this.$http.post(`/admin_post/publish`,{id:this.post.id,top:this.post.top}).then((response) => {
                 if(response.data.code === 0){
                     this.post.state = 1;
                     this.$message.success('发布成功');
@@ -198,7 +197,7 @@ export default {
         },
         //取消发布文章
         unPublishPost() {
-            this.$http.get(`/post/unpublish/${this.post.id}`).then((response) => {
+            this.$http.get(`/admin_post/unpublish/${this.post.id}`).then((response) => {
                 if(response.data.code === 0){
                     this.post.state = 0;
                     this.$message.success('取消发布成功');
@@ -207,7 +206,7 @@ export default {
         },
         //初始化分类列表
         initCateList() {
-            this.$http.get('/cate/get_select').then((response) => {
+            this.$http.get('/cate/get_all_kv_list').then((response) => {
                 if(response.data.code === 0){
                     this.cateList = response.data.data;
                 }
@@ -216,41 +215,51 @@ export default {
         //初始化文章对象
         initPost(id){
             if(id){
-                this.$http.get(`/post/get_post/${id}`).then((response) => {
-                    const resPost = response.data.data;
-                    this.post.id = resPost.id;
-                    this.post.dateTime = resPost.dateTime;
-                    this.post = {
-                        id: resPost.id,
-                        title: resPost.title,
-                        content: resPost.content,
-                        wordNum: resPost.wordNum,
-                        cover: resPost.cover,
-                        summary: resPost.summary,
-                        tagList: resPost.tagList,
-                        type: resPost.type,
-                        state: resPost.state,
-                        top: resPost.top,
-                        cateIds: resPost.cateIds,
-                        dateTime: resPost.dateTime
-                    };
+                this.$http.get(`/admin_post/get_post/${id}`).then((response) => {
+                    if(response.data.code === 0){
+                        const resPost = response.data.data;
+                        this.post = {
+                            id: resPost.id,
+                            title: resPost.title,
+                            content: resPost.content,
+                            cover: resPost.cover,
+                            summary: resPost.summary,
+                            tagList: resPost.tagList,
+                            type: resPost.type,
+                            state: 0,
+                            top: false,
+                            cateIds: resPost.cateIds,
+                            verDate: resPost.verDate
+                        };
+                        this.initPublish(resPost.id);
+                        return;
+                    }
                 });
-            } else {
-                this.post = {
-                    id: null,
-                    title: '',
-                    content: '',
-                    wordNum: 0,
-                    cover: '',
-                    summary: '',
-                    tagList: [],
-                    type: 0,
-                    state: 0,
-                    top: false,
-                    cateIds: [],
-                    dateTime: ''
-                }
             }
+            
+            this.post = {
+                id: null,
+                title: '',
+                content: '',
+                wordNum: 0,
+                cover: '',
+                summary: '',
+                tagList: [],
+                type: 0,
+                state: 0,
+                top: false,
+                cateIds: [],
+                verDate: ''
+            }
+        },
+        //初始化文章发布状态
+        initPublish(id){
+            this.$http.get(`/admin_post/get_publish_post/${id}`).then((response) => {
+                if(response.data.code === 0){
+                    this.post.state = 1;
+                    this.post.top = response.data.data.top;
+                }
+            });
         }
     },
     components: {
