@@ -71,7 +71,7 @@
                     <div class="card-content">
                         <div class="cate-list">
                             <el-checkbox-group v-model="post.cateIds">
-                                <el-checkbox v-for="cate in cateList" :label="cate.val">{{cate.txt}}</el-checkbox>
+                                <el-checkbox v-for="cate in cateList" :label="cate.val" :key="cate.val">{{cate.txt}}</el-checkbox>
                             </el-checkbox-group>
                         </div>
                         <el-button type="text" class="add-cate-btn" @click="showCateInput">

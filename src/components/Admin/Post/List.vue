@@ -48,11 +48,11 @@
         </el-table-column>
         <el-table-column prop="tags" label="标签" width="120">
         </el-table-column>
-        <el-table-column prop="commentNum" label="评论" width="90" sortable="custom">
+        <el-table-column prop="commentNum" label="评论" width="90">
         </el-table-column>
-        <el-table-column prop="likeNum" label="赞" width="80" sortable="custom">
+        <el-table-column prop="likeNum" label="赞" width="80">
         </el-table-column>
-        <el-table-column prop="readNum" label="点击" width="90" sortable="custom">
+        <el-table-column prop="readNum" label="点击" width="90">
         </el-table-column>
         <el-table-column prop="state" label="状态" width="85">
           <template scope="scope">
@@ -61,7 +61,7 @@
         </el-table-column>
         <el-table-column prop="top" label="置顶" width="85">
           <template scope="scope">
-            <el-switch v-model="scope.row.top" :on-value="true" :off-value="false" on-text="" off-text=""></el-switch>
+            <el-switch v-model="scope.row.top" :on-value="true" :disabled="scope.row.state !== 1" :off-value="false" on-text="" off-text=""></el-switch>
           </template>
         </el-table-column>
         <el-table-column prop="createDate" label="日期" show-overflow-tooltip sortable="custom">
@@ -135,19 +135,19 @@ export default {
     handleReverseSelection() {
       this.datas.forEach(row => this.$refs.dataTable.toggleRowSelection(row));
     },
-    // 批量删除
+    // 批量回收
     handleDeleteSelection() {
       let ids = [];
       for (let item of this.multipleSelection) {
         ids.push(item.id);
       }
 
-      this.$confirm('确定删除?', '提示', {
+      this.$confirm('确定回收?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.post('/admin_post/delete_batch',ids).then((response) => {
+        this.$http.post('/admin_post/recycle_batch',ids).then((response) => {
           if(response.data.code === 0){
             this.$message.success('文章已移动到回收站');
             this.flushData();
@@ -163,14 +163,14 @@ export default {
     handleEdit(index, row) {
       this.$router.push({ name: 'admin-post-edit', params: { postId: row.id } });
     },
-    // 删除处理
+    // 回收处理
     handleDelete(id) {
-      this.$confirm('确定删除?', '提示', {
+      this.$confirm('确定回收?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.get(`/admin_post/delete/${id}`).then((response) => {
+        this.$http.get(`/admin_post/recycle/${id}`).then((response) => {
           if(response.data.code === 0){
             this.$message.success('文章已移动到回收站');
             this.flushData();
@@ -211,7 +211,7 @@ export default {
     sortChange({ prop, order }) {
       this.search.pageNum = 1;
       this.search.asc = order === 'descending' ? false : true;
-      this.search.orderCol = prop ? prop : 'startTime';
+      this.search.orderCol = prop ? prop : 'createDate';
       this.flushData();
     },
     // 刷新数据
