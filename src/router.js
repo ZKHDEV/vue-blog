@@ -12,12 +12,12 @@ const routes = [
     component: resolve => require(['./components/Test.vue'], resolve)
   },
   {
-    path: '/',
+    path: '/u/:phone',
     name: 'index',
     component: resolve => require(['./components/Index/Index.vue'], resolve),
     children: [
       {
-        path: 'u/:phone',
+        path: '/',
         name: '/',
         component: resolve => require(['./components/Index/Home.vue'], resolve)
       },

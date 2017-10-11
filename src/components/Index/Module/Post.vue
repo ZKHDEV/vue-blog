@@ -8,7 +8,7 @@
                     <span class="post-author">{{post.userNickName ? post.userNickName : post.userPhone}}</span>
                 </p>
                 <p class="post-info-two">
-                    <span class="post-time">{{post.dateTime}}</span>
+                    <span class="post-time">{{post.createDate}}</span>
                     <span class="post-read">阅读 {{post.readNum}}</span>
                     <span class="post-comment">评论 {{post.commentNum}}</span>
                     <span class="post-like">喜欢 {{post.likeNum}}</span>
@@ -28,7 +28,18 @@
 export default {
     data() {
         return {
-            post: null,
+            post: {
+                id: '',
+                title: '',
+                userPhone: '',
+                userAvatar: '',
+                userNickName: '',
+                createDate: '',
+                readNum: '',
+                commentNum: '',
+                likeNum: '',
+                content: '',
+            },
             isLike: false
         }
     },

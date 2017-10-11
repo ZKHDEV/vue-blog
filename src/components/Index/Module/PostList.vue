@@ -1,7 +1,7 @@
 <template>
     <v-theme-card class="v-post-card" :paddingVer="20" :paddingHor="20">
         <template v-for="post in postList">
-            <div class="post-item">
+            <div class="post-item" :key="post.id">
                 <img class="post-img" :src="post.cover"></img>
                 <div class="post-note">
                     <img :src="user.avatar" @click="handleAuthor"></img>
@@ -11,7 +11,6 @@
                 <router-link class="post-link" :to="{ name: 'post', params: { postId: post.id } }">
                     <h1 class="post-title">{{post.title}}</h1>
                 </router-link>
-                <!-- <h1 class="post-title" @click="showPost(post.id)">{{post.title}}</h1> -->
                 <div class="post-summary">{{post.summary}}...</div>
                 <div class="post-info">
                     <i class="fa fa-eye"></i>{{post.readNum}}
@@ -54,7 +53,7 @@ export default {
         },
         loadMore() {
             this.currentPage++;
-            this.$http.get(`/post/get_six_post/${this.user.phone}/${this.currentPage}`).then((response) => {
+            this.$http.post('/post/get_page',{phone:this.user.phone,pageNum:this.currentPage}).then((response) => {
                 if(response.data.code === 0){
                     const page = response.data.data;
                     if(this.postList.length === 0){

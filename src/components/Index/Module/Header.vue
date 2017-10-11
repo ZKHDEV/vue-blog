@@ -7,33 +7,33 @@
         <v-col :xs="20" :sm="16" :md="16" class="header-nav">
             <ul>
                 <li class="active">
-                    <a href="#">
+                    <router-link :to="{ name: '/', params: { phone: this.$route.params.phone } }">
                         <span class="hidden-xs">主页</span>
                         <i class="fa fa-home visible-xs-inline-block"></i>
-                    </a>
+                    </router-link>
                 </li>
                 <li>
-                    <a href="#">
+                    <router-link :to="{ name: 'cate', params: { phone: this.$route.params.phone } }">
                         <span class="hidden-xs">分类</span>
                         <i class="fa fa-bookmark-o visible-xs-inline-block"></i>
-                    </a>
+                    </router-link>
                 </li>
                 <li>
-                    <a href="#">
+                    <router-link :to="{ name: 'gallery', params: { phone: this.$route.params.phone } }">
                         <span class="hidden-xs">相册</span>
                         <i class="fa fa-camera-retro visible-xs-inline-block"></i>
-                    </a>
+                    </router-link>
                 </li>
                 <li>
-                    <a href="#">
+                    <router-link :to="{ name: 'about', params: { phone: this.$route.params.phone } }">
                         <span class="hidden-xs">关于</span>
                         <i class="fa fa-id-card-o visible-xs-inline-block"></i>
-                    </a>
+                    </router-link>
                 </li>
                 <li class="visible-xs">
-                    <a href="#">
+                    <router-link :to="{ name: 'login', query: { redirect: this.$route.fullPath } }">
                         <i class="fa fa-sign-in"></i>
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </v-col>
