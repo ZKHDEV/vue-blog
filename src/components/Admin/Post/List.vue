@@ -235,6 +235,7 @@ export default {
         for(let cate of response.data.data){
           this.cateSet.push(cate);
         }
+        this.$route.query.cateId && (this.search.cateId = this.$route.query.cateId);
       });
     }
   },

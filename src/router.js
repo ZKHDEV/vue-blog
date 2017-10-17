@@ -27,7 +27,7 @@ const routes = [
         component: resolve => require(['./components/Index/Post.vue'], resolve)
       },
       {
-        path: 'cate',
+        path: 'cate/:cateId',
         name: 'cate',
         component: resolve => require(['./components/Index/Category.vue'], resolve)
       },

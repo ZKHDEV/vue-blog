@@ -33,7 +33,7 @@
                         <p class="card-title">
                             <b>发布</b>
                             <el-button type="success" size="small" @click="savePost">保存草稿</el-button>
-                            <el-button size="small">预览</el-button>
+                            <!-- <el-button size="small">预览</el-button> -->
                         </p>
                     </div>
                     <div class="card-content">

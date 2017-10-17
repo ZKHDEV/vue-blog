@@ -7,8 +7,8 @@
                     <span class="acc-label">{{postList.length}}</span>
                 </a>
                 <ul class="acc-content submenu">
-                    <li v-for="item in postList">
-                        <a :href="item.url">{{item.title}}</a>
+                    <li v-for="item in postList" :key="item.val">
+                        <router-link :to="{ name: 'post', params: { postId: item.val } }">{{item.txt}}</router-link>
                     </li>
                 </ul>
             </li>
@@ -18,22 +18,22 @@
                     <span class="acc-label">{{cateList.length}}</span>
                 </a>
                 <ul class="acc-content submenu">
-                    <li v-for="item in cateList">
-                        <a :href="item.url">{{item.title}}</a>
+                    <li v-for="item in cateList" :key="item.val">
+                        <router-link :to="{ name: 'cate', params: { cateId: item.val } }">{{item.txt}}</router-link>
                     </li>
                 </ul>
             </li>
-            <li>
+            <!-- <li>
                 <a class="acc-btn" href="javascript:void(0)" @click="showMenu(2)">
                     <b>日期</b>
                     <span class="acc-label">{{dateList.length}}</span>
                 </a>
                 <ul class="acc-content submenu">
-                    <li v-for="item in dateList">
+                    <li v-for="item in dateList" :key="item.val">
                         <a :href="item.url">{{item.title}}</a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <li>
                 <a class="acc-btn" href="javascript:void(0)" @click="showMenu(3)">
                     <b>分享</b>
@@ -42,7 +42,6 @@
                     <div class="share-info">扫码分享</div>
                     <img class="share-code" src=""></img>
                 </div>
-                </transition>
             </li>
         </ul>
     </v-card>
@@ -52,19 +51,10 @@ import $ from 'jquery'
 export default {
     data() {
         return {
+            phone: '',
             showIndex: 0,
-            postList: [
-                { title: '链接', url: 'https://www.baidu.com' },
-                { title: '链接', url: 'https://www.baidu.com' },
-                { title: '链接', url: 'https://www.baidu.com' },
-                { title: '链接', url: 'https://www.baidu.com' }
-            ],
-            cateList: [
-                { title: '链接', url: 'https://www.baidu.com' },
-                { title: '链接', url: 'https://www.baidu.com' },
-                { title: '链接', url: 'https://www.baidu.com' },
-                { title: '链接', url: 'https://www.baidu.com' }
-            ],
+            postList: [],
+            cateList: [],
             dateList: [
                 { title: '链接', url: 'https://www.baidu.com' },
                 { title: '链接', url: 'https://www.baidu.com' },
@@ -83,10 +73,39 @@ export default {
                     accs.eq(index).slideDown(300);
                 }, 300);
             }
+        },
+        //初始化
+        init(){
+            this.initPhone();
+            this.initNewPostList();
+            this.initCateList();
+        },
+        //初始化手机号
+        initPhone(){
+            this.phone = this.$route.params.phone;
+        },
+        //初始化最新文章列表
+        initNewPostList(){
+            this.$http.get(`/post/get_new_kv_list_by_phone/${this.phone}`).then((response) => {
+                if(response.data.code === 0){
+                    this.postList = response.data.data;
+                }
+            });
+        },
+        //初始化分类列表
+        initCateList(){
+            this.$http.get(`/cate/get_kv_list_by_phone/${this.phone}`).then((response) => {
+                if(response.data.code === 0){
+                    this.cateList = response.data.data;
+                }
+            });
         }
     },
     components: {
         'v-card': resolve => require(['../components/Card.vue'], resolve),
+    },
+    mounted() {
+        this.init();
     }
 }
 </script>
