@@ -2,18 +2,33 @@
     <div class="post-container" v-title="'文章'">
         <v-row :bottom="40">
             <v-col :md="{span:18,offset:3}">
-                <v-post></v-post>
+                <v-post :postId="postId"></v-post>
             </v-col>
         </v-row>
         <v-row>
             <v-col :md="{span:18,offset:3}">
-                <v-comment></v-comment>
+                <v-comment :postId="postId"></v-comment>
             </v-col>
         </v-row>
     </div>
 </template>
 <script>
 export default {
+    data() {
+        return {
+            postId: null
+        }
+    },
+    watch: {
+        '$route' (to, from) {
+            if(to.name === 'post'){
+                this.postId = to.params.postId;
+            }
+        }
+    },
+    mounted() {
+        this.postId = this.$route.params.postId;
+    },
     components: {
         'v-post': resolve => require(['./Module/Post.vue'], resolve),
         'v-comment': resolve => require(['./Module/Comment.vue'], resolve),

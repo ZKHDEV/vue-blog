@@ -16,9 +16,7 @@
             </div>
             <v-button class="edit-btn" type="inverse" color="one" :height="30" :width="90" :fontSize="14">编辑文章</v-button>
         </div>
-        <div class="post-content">
-            {{post.content}}
-        </div>
+        <div class="post-content" v-html="post.content"></div>
         <v-split :spacing="40"></v-split>
         <v-button class="post-like-btn" type="switch" :on="isLike" color="two" :height="60" :width="130" :fontSize="18" @click="handleLike">
             <i :class="['fa', isLike ? 'fa-heart' : 'fa-heart-o']"></i> 喜欢 | {{post.likeNum}}</v-button>
@@ -26,6 +24,7 @@
 </template>
 <script>
 export default {
+    props: ['postId'],
     data() {
         return {
             post: {
@@ -43,6 +42,11 @@ export default {
             isLike: false
         }
     },
+    watch: {
+        postId(){
+            this.flushPost();
+        }
+    },
     methods: {
         handleLike() {
             //模拟后台处理延时
@@ -50,9 +54,8 @@ export default {
                 this.isLike = !this.isLike;
             }, 500);
         },
-        initPost() {
-            const id = this.$route.params.postId;
-            this.$http.get(`/post/get_post/${id}`).then((response) => {
+        flushPost() {
+            this.$http.get(`/post/get_post/${this.postId}`).then((response) => {
                 if(response.data.code === 0){
                     this.post = response.data.data;
                 }
@@ -65,7 +68,7 @@ export default {
         'v-split': resolve => require(['../components/Split.vue'], resolve),
     },
     mounted() {
-        this.initPost();
+        this.flushPost();
     }
 }
 </script>

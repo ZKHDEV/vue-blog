@@ -1,5 +1,5 @@
 <template>
-  <textarea class="v-textarea" :style="style" :placeholder="placeholder"></textarea>
+  <textarea class="v-textarea" :style="style" :placeholder="placeholder" :value="value" @input="updateValue($event.target.value)"></textarea>
 </template>
 <script>
 export default {
@@ -8,7 +8,8 @@ export default {
       height: {
         type: Number,
         default: 100
-      }
+      },
+      value: String
   },
   computed: {
         style() {
@@ -17,6 +18,11 @@ export default {
             ret.height = `${this.height}px`;
 
             return ret;
+        }
+    },
+    methods:{
+        updateValue(value){
+            this.$emit('input', value);
         }
     }
 }

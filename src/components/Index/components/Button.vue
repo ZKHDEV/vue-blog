@@ -24,6 +24,10 @@ export default {
         },
         height: Number,
         width: Number,
+        isFullWidth: {
+            type: Boolean,
+            default: false
+        },
         paddingHor: Number,
         paddingVer: Number,
         fontSize: {
@@ -60,7 +64,13 @@ export default {
                 ret.paddingTop = ret.paddingBottom = `${this.paddingVer}px`;
             }
 
-            ret.width = this.width ? `${this.width}px` : '100%';
+            if(this.width){
+                ret.width = `${this.width}px`;
+            }
+
+            if(this.isFullWidth){
+                ret.width = '100%';
+            }
 
             if(this.height) {
                 ret.lineHeight = ret.height = `${this.height}px`;
@@ -121,6 +131,7 @@ export default {
     }
     // 文字链接开关（需配合“on”使用）
     &.linkSwitch {
+        float: left;
         background-color: transparent;
         border: none;
     }
