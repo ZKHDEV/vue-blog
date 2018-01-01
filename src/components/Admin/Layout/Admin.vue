@@ -34,6 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~element-ui/lib/theme-default/index.css';
 $leftWidth: 260px;
 $headerHeight: 50px;
 $boxShadow: 0 0 10px 1px rgba(#000000, 0.1);

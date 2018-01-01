@@ -16,13 +16,14 @@
             </div>
             <v-button class="edit-btn" type="inverse" color="one" :height="30" :width="90" :fontSize="14">编辑文章</v-button>
         </div>
-        <div class="post-content" v-html="post.content"></div>
+        <v-markdown-content :content="post.content"></v-markdown-content>
         <v-split :spacing="40"></v-split>
         <v-button class="post-like-btn" type="switch" :on="isLike" color="two" :height="60" :width="130" :fontSize="18" @click="handleLike">
             <i :class="['fa', isLike ? 'fa-heart' : 'fa-heart-o']"></i> 喜欢 | {{post.likeNum}}</v-button>
     </v-theme-card>
 </template>
 <script>
+
 export default {
     props: ['postId'],
     data() {
@@ -66,6 +67,7 @@ export default {
         'v-button': resolve => require(['../components/Button.vue'], resolve),
         'v-theme-card': resolve => require(['../components/ThemeCard.vue'], resolve),
         'v-split': resolve => require(['../components/Split.vue'], resolve),
+        'v-markdown-content': resolve => require(['../components/MarkdownContent.vue'], resolve),
     },
     mounted() {
         this.flushPost();

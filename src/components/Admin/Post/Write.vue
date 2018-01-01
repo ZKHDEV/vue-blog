@@ -9,7 +9,7 @@
                 <!--标题模块结束-->
                 <!--正文模块开始-->
                 <v-card class="padding-card">
-                    <markdown-editor v-model="post.content" ref="markdownEditor" :highlight="true"></markdown-editor>
+                    <markdown-editor preview-class="markdown-body" v-model="post.content" ref="markdownEditor" :highlight="true"></markdown-editor>
                 </v-card>
                 <!--正文模块结束-->
                 <!--摘要模块开始-->
@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { markdownEditor } from 'vue-simplemde'
+import { markdownEditor } from 'vue-simplemde';
 export default {
     data() {
         return {
@@ -284,6 +284,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~simplemde/dist/simplemde.min.css';
+@import '~github-markdown-css';
 .option-card {
     padding: 0;
     font-size: 14px;

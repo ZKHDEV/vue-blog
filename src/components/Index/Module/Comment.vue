@@ -104,6 +104,7 @@ export default {
                             }
                         }
                     } else {
+                        this.comments || (this.comments = []);
                         this.comments.push(response.data.data);
                     }
                 }
