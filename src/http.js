@@ -10,8 +10,8 @@ axios.defaults.baseURL = 'http://127.0.0.1:8010';
 // http request 拦截器
 axios.interceptors.request.use(
     config => {
-        if (store.state.token) {
-            config.headers['X-Token'] = `${store.state.token}`;
+        if (store.state.loginUser && store.state.loginUser.token) {
+            config.headers['X-Token'] = `${store.state.loginUser.token}`;
         }
         return config;
     },

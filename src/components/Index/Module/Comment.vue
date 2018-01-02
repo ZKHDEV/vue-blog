@@ -2,7 +2,7 @@
     <v-theme-card :paddingVer="50" :paddingHor="50">
         <div class="comment-field">
             <div class="comment-field-avatar">
-                <img src=""></img>
+                <img :src="defAvatar"></img>
             </div>
             <div class="comment-field-form">
                 <v-textarea placeholder="写下你的评论..." v-model="newComment.content"></v-textarea>
@@ -13,7 +13,7 @@
         <template v-for="par in comments">
             <div class="comment-item">
                 <div class="comment-note">
-                    <img :src="par.srcUser.avatar"></img>
+                    <img :src="par.srcUser.avatar || defAvatar"></img>
                     <div class="comment-info">
                         <p class="comment-info-one">
                             <span class="comment-author">{{par.srcUser.nickName}}</span>
@@ -79,7 +79,8 @@ export default {
                 postId: null,
                 parCommentId: null
             },
-            replyUserName: null
+            replyUserName: null,
+            defAvatar: require('../../../assets/avatar.png')
         }
     },
     watch: {

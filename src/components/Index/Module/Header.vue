@@ -1,8 +1,10 @@
 <template>
     <div class="header-container">
         <v-col :xs="4" :sm="4" :md="4" class="header-logo">
-            <img class="logo hidden-xs" src=""></img>
-            <img class="mini-logo visible-xs-inline-block" src=""></img>
+            <router-link :to="{ name: '/', params: { phone: this.$route.params.phone } }">
+                <img class="logo hidden-xs" :src="defLogo"></img>
+                <img class="mini-logo visible-xs-inline-block" :src="miniLogo"></img>
+            </router-link>
         </v-col>
         <v-col :xs="20" :sm="16" :md="16" class="header-nav">
             <ul>
@@ -78,7 +80,9 @@ export default {
     data() {
         return {
             isLogin: false,
-            showSetMenu: false
+            showSetMenu: false,
+            defLogo: require('../../../assets/logo-100x40.png'),
+            miniLogo: require('../../../assets/logo-40x40.png'),
         }
     },
     methods: {

@@ -1,5 +1,6 @@
 export default {
     LOGIN: 'login',
     LOGOUT: 'logout',
-    TITLE: 'title'
+    TITLE: 'title',
+    INITUSER: 'initUser'
 }

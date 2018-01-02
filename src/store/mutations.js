@@ -1,13 +1,13 @@
 import types from './mutation-types'
 
 export default {
-    [types.LOGIN] (state, token) {
-        window.localStorage.setItem('back_token', token);
-        state.token = token;
+    [types.LOGIN] (state, user) {
+        window.localStorage.setItem('macro_login_user', JSON.stringify(user));
+        state.loginUser = user;
     },
     [types.LOGOUT] (state) {
-        window.localStorage.removeItem('back_token');
-        state.token = '';
+        window.localStorage.removeItem('macro_login_user');
+        state.loginUser = null;
     },
     [types.TITLE] (state, title) {
         window.document.title = title + ' - Macro博客';

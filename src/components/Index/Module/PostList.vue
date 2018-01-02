@@ -2,9 +2,9 @@
     <v-theme-card class="v-post-card" :paddingVer="20" :paddingHor="20">
         <template v-for="post in postList">
             <div class="post-item" :key="post.id">
-                <img class="post-img" :src="post.cover"></img>
+                <img class="post-img" :src="post.cover || defAvatar" v-if="post.cover"></img>
                 <div class="post-note">
-                    <img :src="user.avatar" @click="handleAuthor"></img>
+                    <img :src="user.avatar || require('../../../assets/avatar.png')" @click="handleAuthor"></img>
                     <span class="post-note-name">{{user.nickName ? user.nickName : user.phone}}</span>
                     <span class="post-note-time">{{post.dateTime}}</span>
                 </div>
@@ -29,7 +29,8 @@ export default {
             user: null,
             postList: [],
             currentPage: 0,
-            total: 0
+            total: 0,
+            defAvatar: require('../../../assets/avatar.png')
         }
     },
     methods: {

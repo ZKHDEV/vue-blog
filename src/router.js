@@ -89,8 +89,10 @@ const routes = [
   }
 ]
 
-if (window.localStorage.getItem('back_token')) {
-  store.commit(types.LOGIN, window.localStorage.getItem('back_token'))
+if (window.localStorage.getItem('macro_login_user')) {
+  store.commit(types.LOGIN, JSON.parse(window.localStorage.getItem('macro_login_user')))
+} else {
+  store.commit(types.LOGOUT)
 }
 
 const router = new VueRouter({
@@ -98,6 +100,21 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  //缺省路由
+  if(!to.name){
+    if(store.state.loginUser && store.state.loginUser.phone){
+      next({
+        name: 'index',
+        params: {phone: store.state.loginUser.phone}
+      })
+    } else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    }
+  }
+  //用户校验
   if (to.matched.some(r => r.meta.auth)) {
     if (store.state.token) {
       next();

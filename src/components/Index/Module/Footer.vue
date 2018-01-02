@@ -1,7 +1,7 @@
 <template>
     <div class="footer-container">
         <v-container>
-            <span class="copyright-text">版权所有 &copy; {{currentYear}} Macro之家</span>
+            <span class="copyright-text">版权所有 &copy; {{currentYear}} Macro</span>
             <ul class="help-list">
                 <li>
                     <a href="javascript:void(0)">关于我们</a>

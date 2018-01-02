@@ -2,7 +2,7 @@
     <div class="login-container" v-title="'登录'">
         <v-theme-card class="login-card" :padding-hor="50" :padding-ver="38" :backPosX="-40">
             <div class="card-content">
-                <img class="logo"></img>
+                <img class="logo" :src="mainLogo"></img>
                 <v-card class="input-card" type="inverse" :padding-hor="20" :padding-ver="0">
                     <div class="input-item">
                         <div class="input-group phone-input">
@@ -35,7 +35,8 @@ export default {
             logining: false,    //是否正在处理登录请求
             phone: '',    //手机号
             code: '',    //验证码
-            loginInfo: ''    //登录验证信息
+            loginInfo: '',    //登录验证信息
+            mainLogo: require('../../assets/logo-200x80.png')
         }
     },
     methods: {
@@ -57,13 +58,21 @@ export default {
                     //发送登录请求
                     this.$http.post('/login', { phone: this.phone, code: this.code }).then((response) => {
                         if (response.data.code === 0) {
+                            const respUser = response.data.data;
                             //保存登录状态
-                            this.$store.commit(types.LOGIN, response.data.data);
+                            this.$store.commit(types.LOGIN, respUser);
                             //跳转到登录前页面或主页
                             const redirect = decodeURIComponent(this.$route.query.redirect || '/');
-                            this.$router.push({
-                                path: redirect
-                            })
+                            if(redirect === '/'){
+                                this.$router.push({
+                                    name: 'index',
+                                    params: {phone: respUser.phone}
+                                })
+                            } else {
+                                this.$router.push({
+                                    path: redirect
+                                })
+                            }
                             return;
                         } else {
                             this.loginBtnText = '登录';

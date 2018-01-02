@@ -2,10 +2,10 @@
     <v-theme-card :paddingVer="20" :paddingHor="50">
         <h1 class="post-title">{{post.title}}</h1>
         <div class="post-note">
-            <img :src="post.userAvatar"></img>
+            <img :src="post.user.avatar || defAvatar"></img>
             <div class="post-info">
                 <p class="post-info-one">
-                    <span class="post-author">{{post.userNickName ? post.userNickName : post.userPhone}}</span>
+                    <span class="post-author">{{post.user.nickName || post.user.phone}}</span>
                 </p>
                 <p class="post-info-two">
                     <span class="post-time">{{post.createDate}}</span>
@@ -31,16 +31,20 @@ export default {
             post: {
                 id: '',
                 title: '',
-                userPhone: '',
-                userAvatar: '',
-                userNickName: '',
                 createDate: '',
                 readNum: '',
                 commentNum: '',
                 likeNum: '',
                 content: '',
+                user: {
+                    id: '',
+                    avatar: '',
+                    phone: '',
+                    nickName: ''
+                }
             },
-            isLike: false
+            isLike: false,
+            defAvatar: require('../../../assets/avatar.png')
         }
     },
     watch: {
