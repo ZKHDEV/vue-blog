@@ -1,5 +1,5 @@
 <template>
-  <div class="markdown-body" v-html="mdContent"></div>
+  <article class="markdown-body" v-html="mdContent"></article>
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     mdContent() {
-      return this.content;//this.simpleMde.markdown(this.content);
+      return this.simpleMde.markdown(this.content);
     }
   }
 };
