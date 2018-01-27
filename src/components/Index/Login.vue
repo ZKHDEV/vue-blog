@@ -57,7 +57,7 @@ export default {
                     this.logining = true;
                     //发送登录请求
                     this.$http.post('/login', { phone: this.phone, code: this.code }).then((response) => {
-                        if (response.data.code === 0) {
+                        if (response.data.code === 0 || response.data.code === -30) {
                             const respUser = response.data.data;
                             //保存登录状态
                             this.$store.commit(types.LOGIN, respUser);

@@ -14,7 +14,7 @@
                     <span class="post-like">喜欢 {{post.likeNum}}</span>
                 </p>
             </div>
-            <v-button class="edit-btn" type="inverse" color="one" :height="30" :width="90" :fontSize="14">编辑文章</v-button>
+            <!-- <v-button class="edit-btn" type="inverse" color="one" :height="30" :width="90" :fontSize="14">编辑文章</v-button> -->
         </div>
         <v-markdown-content :content="post.content"></v-markdown-content>
         <v-split :spacing="40"></v-split>

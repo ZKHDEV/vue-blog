@@ -32,21 +32,24 @@ axios.interceptors.response.use(
         }
         return response;
     },
-    // error => {
-    //     console.log(error);
-    //     if (error.response) {
-    //         switch (error.response.status) {
-    //             case 401:
-    //                 // 401 清除token信息并跳转到登录页面
-    //                 store.commit(types.LOGOUT);
-    //                 router.replace({
-    //                     name: 'login',
-    //                     query: { redirect: router.currentRoute.fullPath }
-    //                 })
-    //         }
-    //     }
-    //     return Promise.reject(error.response.data)
-    // }
+    error => {
+        router.replace({
+            name: 'login',
+            query: { redirect: router.currentRoute.fullPath }
+        })
+        // if (error.response) {
+        //     switch (error.response.status) {
+        //         case 401:
+        //             // 401 清除token信息并跳转到登录页面
+        //             store.commit(types.LOGOUT);
+        //             router.replace({
+        //                 name: 'login',
+        //                 query: { redirect: router.currentRoute.fullPath }
+        //             })
+        //     }
+        // }
+        // return Promise.reject(error.response.data)
+    }
 );
 
 export default axios;

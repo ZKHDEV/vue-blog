@@ -4,8 +4,8 @@
             <div class="post-item" :key="post.id">
                 <img class="post-img" :src="post.cover || defAvatar" v-if="post.cover"></img>
                 <div class="post-note">
-                    <img :src="user.avatar || require('../../../assets/avatar.png')" @click="handleAuthor"></img>
-                    <span class="post-note-name">{{user.nickName ? user.nickName : user.phone}}</span>
+                    <img :src="post.user.avatar || require('../../../assets/avatar.png')" @click="handleAuthor"></img>
+                    <span class="post-note-name">{{post.user.nickName ? post.user.nickName : post.user.phone}}</span>
                     <span class="post-note-time">{{post.dateTime}}</span>
                 </div>
                 <router-link class="post-link" :to="{ name: 'post', params: { postId: post.id } }">
@@ -19,19 +19,26 @@
                 </div>
             </div>
         </template>
-        <v-button class="post-load" v-show="postList.length !== total" color="two" :height="40" :width="100" :fontSize="13" @click="loadMore">加载更多</v-button>
+        <v-button class="post-load" v-show="postList.length < total" color="two" :height="40" :width="100" :fontSize="13" @click="loadPostByUID">加载更多</v-button>
     </v-theme-card>
 </template>
 <script>
 export default {
+    props: ['uid'],
     data() {
         return {
-            user: null,
+            curUID: this.uid,
             postList: [],
             currentPage: 0,
             total: 0,
             defAvatar: require('../../../assets/avatar.png')
         }
+    },
+    watch: {
+      uid(newVal,oldVal) {
+          this.curUID = newVal;
+          this.init();
+      }
     },
     methods: {
         handleAuthor() {
@@ -41,20 +48,27 @@ export default {
             this.$router.push({ name: 'post', params: { postId: id } });
         },
         //初始化文章卡片
-        initCard() {
-            const phone = this.$route.params.phone;
-            this.$http.get(`/get_user/${phone}`).then((response) => {
-                if(response.data.code === 0){
-                    this.user = response.data.data;
-                    this.loadMore();
-                } else {
-                    //TODO:若用户不存在跳转到错误页面
-                }
-            });
+        // initCard() {
+        //     const phone = this.$route.params.phone;
+        //     this.$http.get(`/get_user/${phone}`).then((response) => {
+        //         if(response.data.code === 0){
+        //             this.user = response.data.data;
+        //             this.loadMore();
+        //         } else {
+        //             //TODO:若用户不存在跳转到错误页面
+        //         }
+        //     });
+        // },
+        
+        //初始化
+        init() {
+            this.currentPage = 0;
+            this.postList.splice(0,this.postList.length);
+            this.loadPostByUID();
         },
-        loadMore() {
+        loadPostByUID() {
             this.currentPage++;
-            this.$http.post('/post/get_page',{phone:this.user.phone,pageNum:this.currentPage}).then((response) => {
+            this.$http.post('/post/get_page',{uid:this.curUID,pageNum:this.currentPage}).then((response) => {
                 if(response.data.code === 0){
                     const page = response.data.data;
                     if(this.postList.length === 0){
@@ -74,7 +88,7 @@ export default {
         'v-theme-card': resolve => require(['../components/ThemeCard.vue'], resolve),
     },
     mounted() {
-        this.initCard();
+        this.loadPostByUID();
     }
 }
 </script>

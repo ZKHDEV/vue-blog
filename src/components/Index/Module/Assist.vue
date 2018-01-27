@@ -49,9 +49,10 @@
 <script>
 import $ from 'jquery'
 export default {
+    props: ['uid'],
     data() {
         return {
-            phone: '',
+            curUID: this.uid,
             showIndex: 0,
             postList: [],
             cateList: [],
@@ -62,6 +63,12 @@ export default {
                 { title: '链接', url: 'https://www.baidu.com' }
             ]
         }
+    },
+    watch: {
+      uid(newVal,oldVal) {
+          this.curUID = newVal;
+          this.init();
+      }
     },
     methods: {
         showMenu(index) {
@@ -76,17 +83,14 @@ export default {
         },
         //初始化
         init(){
-            this.initPhone();
+            this.postList.splice(0,this.postList.length);
+            this.cateList.splice(0,this.cateList.length);
             this.initNewPostList();
             this.initCateList();
         },
-        //初始化手机号
-        initPhone(){
-            this.phone = this.$route.params.phone;
-        },
         //初始化最新文章列表
         initNewPostList(){
-            this.$http.get(`/post/get_new_kv_list_by_phone/${this.phone}`).then((response) => {
+            this.$http.get(`/post/get_new_kv_list_by_uid/${this.curUID}`).then((response) => {
                 if(response.data.code === 0){
                     this.postList = response.data.data;
                 }
@@ -94,7 +98,7 @@ export default {
         },
         //初始化分类列表
         initCateList(){
-            this.$http.get(`/cate/get_kv_list_by_phone/${this.phone}`).then((response) => {
+            this.$http.get(`/cate/get_kv_list_by_uid/${this.curUID}`).then((response) => {
                 if(response.data.code === 0){
                     this.cateList = response.data.data;
                 }

@@ -1,9 +1,9 @@
 <template>
     <div class="index-container">
-        <v-header></v-header> 
+        <v-header :uid="curUID"></v-header> 
         <v-container>
             <keep-alive>
-                <router-view></router-view>
+                <router-view :uid="curUID"></router-view>
             </keep-alive>
         </v-container>
         <v-footer></v-footer>
@@ -11,6 +11,11 @@
 </template>
 <script>
 export default {
+    computed: {
+        curUID() {
+            return this.$route.params.uid;
+        }
+    },
     components: {
         'v-header': resolve => require(['./Module/Header.vue'], resolve),
         'v-footer': resolve => require(['./Module/Footer.vue'], resolve),

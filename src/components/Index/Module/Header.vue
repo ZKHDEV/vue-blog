@@ -8,28 +8,10 @@
         </v-col>
         <v-col :xs="20" :sm="16" :md="16" class="header-nav">
             <ul>
-                <li class="active">
-                    <router-link :to="{ name: '/', params: { phone: this.$route.params.phone } }">
-                        <span class="hidden-xs">主页</span>
-                        <i class="fa fa-home visible-xs-inline-block"></i>
-                    </router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'cate', params: { phone: this.$route.params.phone } }">
-                        <span class="hidden-xs">分类</span>
-                        <i class="fa fa-bookmark-o visible-xs-inline-block"></i>
-                    </router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'gallery', params: { phone: this.$route.params.phone } }">
-                        <span class="hidden-xs">相册</span>
-                        <i class="fa fa-camera-retro visible-xs-inline-block"></i>
-                    </router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'about', params: { phone: this.$route.params.phone } }">
-                        <span class="hidden-xs">关于</span>
-                        <i class="fa fa-id-card-o visible-xs-inline-block"></i>
+                <li v-for="item in pages">
+                    <router-link :to="{ name: item.name, params: { uid: curUID } }">
+                        <span class="hidden-xs">{{item.title}}</span>
+                        <i :class="['fa',`fa-${item.icon}`,'visible-xs-inline-block']"></i>
                     </router-link>
                 </li>
                 <li class="visible-xs">
@@ -77,12 +59,24 @@
 </template>
 <script>
 export default {
+    props: ['uid'],
     data() {
         return {
+            pages: [
+                { title: '主页', name: '/', icon: 'home' },
+                { title: '分类', name: 'cate', icon: 'bookmark-o' },
+                { title: '相册', name: 'gallery', icon: 'camera-retro' },
+                { title: '关于', name: 'about', icon: 'id-card-o' }
+            ],
             isLogin: false,
             showSetMenu: false,
             defLogo: require('../../../assets/logo-100x40.png'),
             miniLogo: require('../../../assets/logo-40x40.png'),
+        }
+    },
+    computed: {
+        curUID() {
+            return this.uid;
         }
     },
     methods: {
@@ -234,20 +228,11 @@ export default {
             text-align: center;
             &:link,
             &:visited {
-                background-color: #FFFFFF;
+                color: #000000;
             }
             &:hover,
             &:active {
-                background-color: #E4E4E4;
-            }
-        }
-        &.active a {
-            color: $theme-color-two;
-            &:link,
-            &:visited,
-            &:hover,
-            &:active {
-                background-color: #FFFFFF;
+                color: $theme-color-two;
             }
         }
     }

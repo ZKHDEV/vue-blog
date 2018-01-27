@@ -12,7 +12,7 @@ const routes = [
     component: resolve => require(['./components/Test.vue'], resolve)
   },
   {
-    path: '/u/:phone',
+    path: '/u/:uid',
     name: 'index',
     component: resolve => require(['./components/Index/Index.vue'], resolve),
     children: [
@@ -27,7 +27,7 @@ const routes = [
         component: resolve => require(['./components/Index/Post.vue'], resolve)
       },
       {
-        path: 'cate/:cateId',
+        path: 'cate/:cateId?',
         name: 'cate',
         component: resolve => require(['./components/Index/Category.vue'], resolve)
       },
@@ -50,6 +50,7 @@ const routes = [
   },
   {
     path: '/admin',
+    name: 'admin',
     meta: {
       auth: true
     },
@@ -57,7 +58,7 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'admin',
+        name: 'welcome',
         component: resolve => require(['./components/Admin/Welcome.vue'], resolve)
       },
       {
@@ -116,7 +117,7 @@ router.beforeEach((to, from, next) => {
   }
   //用户校验
   if (to.matched.some(r => r.meta.auth)) {
-    if (store.state.token) {
+    if (store.state.loginUser && store.state.loginUser.token) {
       next();
     }
     else {
