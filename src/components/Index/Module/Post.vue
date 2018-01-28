@@ -48,8 +48,8 @@ export default {
         }
     },
     watch: {
-        postId(){
-            this.flushPost();
+        postId(newVal,oldVal){
+            this.init();
         }
     },
     methods: {
@@ -59,7 +59,25 @@ export default {
                 this.isLike = !this.isLike;
             }, 500);
         },
-        flushPost() {
+        init(){
+            this.post = {
+                id: '',
+                title: '',
+                createDate: '',
+                readNum: '',
+                commentNum: '',
+                likeNum: '',
+                content: '',
+                user: {
+                    id: '',
+                    avatar: '',
+                    phone: '',
+                    nickName: ''
+                }
+            };
+            this.initPost();
+        },
+        initPost() {
             this.$http.get(`/post/get_post/${this.postId}`).then((response) => {
                 if(response.data.code === 0){
                     this.post = response.data.data;
@@ -74,7 +92,7 @@ export default {
         'v-markdown-content': resolve => require(['../components/MarkdownContent.vue'], resolve),
     },
     mounted() {
-        this.flushPost();
+        this.init();
     }
 }
 </script>

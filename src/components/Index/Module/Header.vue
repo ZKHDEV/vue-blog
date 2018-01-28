@@ -1,7 +1,7 @@
 <template>
     <div class="header-container">
         <v-col :xs="4" :sm="4" :md="4" class="header-logo">
-            <router-link :to="{ name: '/', params: { phone: this.$route.params.phone } }">
+            <router-link :to="{ name: '/' }">
                 <img class="logo hidden-xs" :src="defLogo"></img>
                 <img class="mini-logo visible-xs-inline-block" :src="miniLogo"></img>
             </router-link>
@@ -9,7 +9,7 @@
         <v-col :xs="20" :sm="16" :md="16" class="header-nav">
             <ul>
                 <li v-for="item in pages">
-                    <router-link :to="{ name: item.name, params: { uid: curUID } }">
+                    <router-link :to="{ name: item.name }">
                         <span class="hidden-xs">{{item.title}}</span>
                         <i :class="['fa',`fa-${item.icon}`,'visible-xs-inline-block']"></i>
                     </router-link>

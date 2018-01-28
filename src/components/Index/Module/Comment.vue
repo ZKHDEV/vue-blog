@@ -32,21 +32,19 @@
                     <v-button class="feedback-btn" type="link" color="gray" :fontSize="13" :width="30" :height="20">举报</v-button>
                 </div>
                 <div class="comment-reply" v-show="par.chiCommentList || newReply.parCommentId==par.id">
-                    <template v-for="chi in par.chiCommentList">
-                        <div class="comment-reply-item">
-                            <div class="reply-people">
-                                <v-button type="link" color="four" :fontSize="14" @click="showReplyForm(par.id,chi.srcUser)">@{{chi.srcUser.nickName}}</v-button> ：
-                                <v-button type="link" color="four" :fontSize="14" @click="showReplyForm(par.id,chi.tarUser)">@{{chi.tarUser.nickName}}</v-button>
-                            </div>
-                            {{chi.content}}
-                            <div class="reply-feedback">
-                                <span class="reply-time">{{chi.verDate}}</span>
-                                <v-button type="link" color="gray" :fontSize="13" :width="50" :height="20" @click="showReplyForm(par.id,chi.srcUser)">
-                                    <i class="fa fa-comment-o"></i> 回复</v-button>
-                                <v-button class="feedback-btn" type="link" color="gray" :fontSize="13" :width="30" :height="20">举报</v-button>
-                            </div>
+                    <div class="comment-reply-item" v-for="chi in par.chiCommentList">
+                        <div class="reply-people">
+                            <v-button type="link" color="four" :fontSize="14" @click="showReplyForm(par.id,chi.srcUser)">@{{chi.srcUser.nickName}}</v-button> ：
+                            <v-button type="link" color="four" :fontSize="14" @click="showReplyForm(par.id,chi.tarUser)">@{{chi.tarUser.nickName}}</v-button>
                         </div>
-                    </template>
+                        {{chi.content}}
+                        <div class="reply-feedback">
+                            <span class="reply-time">{{chi.verDate}}</span>
+                            <v-button type="link" color="gray" :fontSize="13" :width="50" :height="20" @click="showReplyForm(par.id,chi.srcUser)">
+                                <i class="fa fa-comment-o"></i> 回复</v-button>
+                            <v-button class="feedback-btn" type="link" color="gray" :fontSize="13" :width="30" :height="20">举报</v-button>
+                        </div>
+                    </div>
                     <!-- <div class="reply-more">
                         <span class="reply-more-info">还有4条评论，</span>
                         <v-button type="link" color="four" :fontSize="13">展开查看</v-button>
@@ -85,7 +83,7 @@ export default {
     },
     watch: {
         postId(){
-            this.flushComment();
+            this.init();
         }
     },
     methods: {
@@ -121,7 +119,7 @@ export default {
             }
             this.replyUserName = `回复 ${tarUser.nickName} ：`;
         },
-        flushComment() {
+        init() {
             this.$http.get(`/comment/get_all/${this.postId}`).then((response) => {
                 if(response.data.code === 0){
                     this.comments = response.data.data;
@@ -139,7 +137,7 @@ export default {
         }
     },
     mounted(){
-        this.flushComment();
+        this.init();
     },
     components: {
         'v-button': resolve => require(['../components/Button.vue'], resolve),

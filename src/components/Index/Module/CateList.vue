@@ -2,32 +2,54 @@
     <v-card>
         <div class="cate-back">
             <ul class="cate-list">
-                <template v-for="(cate,key) in cateList">
-                <li>
-                    <a :class="['cate-item',currentItem === key ? 'active' : '']" href="javascript:void(0);" @click="handleClick(key)">{{cate}}</a>
+                <li v-for="item in cateList">
+                    <router-link :class="['cate-item', {'active':item.val===curCate}]" :to="{ name: 'cate', params: { cateId: item.val } }">{{item.txt}}</router-link>
                 </li>
-                </template>
             </ul>
         </div>
     </v-card>
 </template>
 <script>
-import $ from 'jquery'
 export default {
+    props: ['uid','cateId'],
     data() {
         return {
-            cateList: ['全部','HTML','CSS','JS','JAVA','PHP'],
-            currentItem: 0
+            cateList: []
+        }
+    },
+    watch: {
+      uid() {
+          this.init();
+      }
+    },
+    computed: {
+        curCate() {
+            return this.cateId;
         }
     },
     methods: {
         handleClick(key) {
             // 页面跳转
             this.currentItem = key;
+        },
+        init() {
+            this.cateList.splice(0,this.cateList.length);
+            this.initCate();
+        },
+        initCate() {
+            this.$http.get(`/cate/get_kv_list_by_uid/${this.uid}`).then((response) => {
+                if(response.data.code === 0){
+                    this.cateList = [{val:null,txt:'全部'}];
+                    this.cateList.push(...response.data.data);
+                }
+            });
         }
     },
     components: {
         'v-card': resolve => require(['../components/Card.vue'], resolve),
+    },
+    mounted() {
+        this.init();
     }
 }
 </script>

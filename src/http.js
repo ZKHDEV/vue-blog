@@ -28,7 +28,7 @@ axios.interceptors.response.use(
             router.replace({
                 name: 'login',
                 query: { redirect: router.currentRoute.fullPath }
-            })
+            });
         }
         return response;
     },

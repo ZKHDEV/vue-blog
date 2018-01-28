@@ -24,10 +24,9 @@
 </template>
 <script>
 export default {
-    props: ['uid'],
+    props: ['uid','cateId'],
     data() {
         return {
-            curUID: this.uid,
             postList: [],
             currentPage: 0,
             total: 0,
@@ -35,8 +34,10 @@ export default {
         }
     },
     watch: {
-      uid(newVal,oldVal) {
-          this.curUID = newVal;
+      uid() {
+          this.init();
+      },
+      cateId() {
           this.init();
       }
     },
@@ -47,19 +48,6 @@ export default {
         showPost(id){
             this.$router.push({ name: 'post', params: { postId: id } });
         },
-        //初始化文章卡片
-        // initCard() {
-        //     const phone = this.$route.params.phone;
-        //     this.$http.get(`/get_user/${phone}`).then((response) => {
-        //         if(response.data.code === 0){
-        //             this.user = response.data.data;
-        //             this.loadMore();
-        //         } else {
-        //             //TODO:若用户不存在跳转到错误页面
-        //         }
-        //     });
-        // },
-        
         //初始化
         init() {
             this.currentPage = 0;
@@ -68,7 +56,7 @@ export default {
         },
         loadPostByUID() {
             this.currentPage++;
-            this.$http.post('/post/get_page',{uid:this.curUID,pageNum:this.currentPage}).then((response) => {
+            this.$http.post('/post/get_page',{uid:this.uid,cateId:this.cateId,pageNum:this.currentPage}).then((response) => {
                 if(response.data.code === 0){
                     const page = response.data.data;
                     if(this.postList.length === 0){
@@ -88,7 +76,7 @@ export default {
         'v-theme-card': resolve => require(['../components/ThemeCard.vue'], resolve),
     },
     mounted() {
-        this.loadPostByUID();
+        this.init();
     }
 }
 </script>
