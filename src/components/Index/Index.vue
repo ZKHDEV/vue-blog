@@ -1,9 +1,9 @@
 <template>
     <div class="index-container">
-        <v-header :uid="curUID"></v-header> 
+        <v-header :user="user"></v-header> 
         <v-container>
             <keep-alive>
-                <router-view :uid="curUID"></router-view>
+                <router-view :uid="uid"></router-view>
             </keep-alive>
         </v-container>
         <v-footer></v-footer>
@@ -12,8 +12,11 @@
 <script>
 export default {
     computed: {
-        curUID() {
+        uid() {
             return this.$route.params.uid;
+        },
+        user() {
+            return this.$store.state.loginUser;
         }
     },
     components: {

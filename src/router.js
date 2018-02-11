@@ -106,7 +106,7 @@ router.beforeEach((to, from, next) => {
     if(store.state.loginUser && store.state.loginUser.phone){
       next({
         name: 'index',
-        params: {phone: store.state.loginUser.phone}
+        params: {uid: store.state.loginUser.id}
       })
     } else {
       next({

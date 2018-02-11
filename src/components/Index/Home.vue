@@ -7,10 +7,10 @@
     </v-row>
     <v-row>
       <v-col :md="16">
-          <v-post-list :uid="curUID"></v-post-list>
+          <v-post-list :uid="uid"></v-post-list>
       </v-col>
       <v-col :md="8">
-          <v-assist :uid="curUID"></v-assist>
+          <v-assist :uid="uid"></v-assist>
       </v-col>
     </v-row>
   </div>
@@ -18,11 +18,6 @@
 <script>
 export default {
   props: ['uid'],
-  computed: {
-      curUID() {
-          return this.uid;
-      }
-  },
   components: {
     'v-row': resolve => require(['./components/Layout/Row.vue'], resolve),
     'v-col': resolve => require(['./components/Layout/Col.vue'], resolve),

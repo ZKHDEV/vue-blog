@@ -22,34 +22,19 @@
             </ul>
         </v-col>
         <v-col :xs="0" :sm="4" :md="4" class="header-account">
-            <v-button v-if="!isLogin" class="account-btn" @click="handleLogin" color="two" :height="40" :width="100" :fontSize="13">登录/注册</v-button>
-            <a class="setting-btn" v-if="isLogin" href="javascript:void(0)" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
-                <img src=""></img>
+            <v-button v-if="!user" class="account-btn" @click="handleLogin" color="two" :height="40" :width="100" :fontSize="13">登录/注册</v-button>
+            <a class="setting-btn" v-if="user" href="javascript:void(0)" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
+                <img :src="user.avatar"></img>
                 <div class="setting-menu" v-show="showSetMenu">
                     <ul>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa fa-user"></i>设置</a>
+                        <li v-for="item in settings">
+                            <router-link :to="{ name: item.name }">
+                                <i :class="['fa',`fa-${item.icon}`]"></i>{{item.title}}
+                            </router-link>
                         </li>
                         <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa fa-user"></i>设置</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa fa-user"></i>设置</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa fa-user"></i>设置</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa fa-user"></i>设置</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="fa fa-user"></i>设置</a>
+                            <a href="javascript:void(0)" @click="handleLogout">
+                                <i class="fa fa-sign-out"></i>退出</a>
                         </li>
                     </ul>
                 </div>
@@ -58,8 +43,9 @@
     </div>
 </template>
 <script>
+import types from '../../../store/mutation-types'
 export default {
-    props: ['uid'],
+    props: ['user'],
     data() {
         return {
             pages: [
@@ -68,19 +54,20 @@ export default {
                 { title: '相册', name: 'gallery', icon: 'camera-retro' },
                 { title: '关于', name: 'about', icon: 'id-card-o' }
             ],
-            isLogin: false,
             showSetMenu: false,
+            settings: [
+                { title: '管理', name: 'admin', icon: 'tachometer' },
+            ],
             defLogo: require('../../../assets/logo-100x40.png'),
             miniLogo: require('../../../assets/logo-40x40.png'),
         }
     },
-    computed: {
-        curUID() {
-            return this.uid;
-        }
-    },
     methods: {
         handleLogin() {
+            this.$router.push({ name: 'login' });
+        },
+        handleLogout() {
+            this.$store.commit(types.LOGOUT);
             this.$router.push({ name: 'login' });
         }
     },
