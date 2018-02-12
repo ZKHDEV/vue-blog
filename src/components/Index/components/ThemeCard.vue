@@ -45,12 +45,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../../static/scss/variables.scss';
+@import '~scss_vars';
 .v-theme-card {
     padding: 12px 0;
     border-radius: 6px;
     overflow: hidden;
-    background: #FFFFFF url('../../../assets/' + $theme-lace-image-name);
+    background: #FFFFFF url('~assets/images/' + $theme-lace-image-name);
     box-shadow: $theme-box-shadow;
 }
 </style>

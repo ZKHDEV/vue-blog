@@ -37,7 +37,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../../static/scss/variables.scss';
+@import '~scss_vars';
 .v-card {
     border-radius: 6px;
     overflow: hidden;

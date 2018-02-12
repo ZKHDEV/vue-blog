@@ -1,6 +1,6 @@
 <template>
   <div class="v-avatar">
-    <img class="avatar" src="../../../assets/avatar.jpg"></img>
+    <img class="avatar" src="~assets/images/avatar.jpg"/>
     <h1>Admin</h1>
   </div>
 </template>

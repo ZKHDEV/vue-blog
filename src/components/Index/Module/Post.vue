@@ -2,7 +2,7 @@
     <v-theme-card :paddingVer="20" :paddingHor="50">
         <h1 class="post-title">{{post.title}}</h1>
         <div class="post-note">
-            <img :src="post.user.avatar || defAvatar"></img>
+            <img :src="post.user.avatar || defAvatar"/>
             <div class="post-info">
                 <p class="post-info-one">
                     <span class="post-author">{{post.user.nickName || post.user.phone}}</span>
@@ -44,7 +44,7 @@ export default {
                 }
             },
             isLike: false,
-            defAvatar: require('../../../assets/avatar.png')
+            defAvatar: require('assets/images/avatar.png')
         }
     },
     watch: {

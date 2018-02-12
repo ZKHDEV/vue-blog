@@ -2,7 +2,7 @@
     <v-theme-card :paddingVer="50" :paddingHor="50">
         <div class="comment-field">
             <div class="comment-field-avatar">
-                <img :src="defAvatar"></img>
+                <img :src="defAvatar"/>
             </div>
             <div class="comment-field-form">
                 <v-textarea placeholder="写下你的评论..." v-model="newComment.content"></v-textarea>
@@ -10,10 +10,10 @@
                 <v-button class="comment-form-btn" type="link" color="gray" :height="40" :width="80" :fontSize="16" @click="newComment.content=''">取消</v-button>
             </div>
         </div>
-        <template v-for="par in comments">
-            <div class="comment-item">
+        <template v-for="(par,index) in comments">
+            <div class="comment-item" :key="index">
                 <div class="comment-note">
-                    <img :src="par.srcUser.avatar || defAvatar"></img>
+                    <img :src="par.srcUser.avatar || defAvatar"/>
                     <div class="comment-info">
                         <p class="comment-info-one">
                             <span class="comment-author">{{par.srcUser.nickName}}</span>
@@ -32,7 +32,7 @@
                     <v-button class="feedback-btn" type="link" color="gray" :fontSize="13" :width="30" :height="20">举报</v-button>
                 </div>
                 <div class="comment-reply" v-show="par.chiCommentList || newReply.parCommentId==par.id">
-                    <div class="comment-reply-item" v-for="chi in par.chiCommentList">
+                    <div class="comment-reply-item" v-for="(chi,index) in par.chiCommentList" :key="index">
                         <div class="reply-people">
                             <v-button type="link" color="four" :fontSize="14" @click="showReplyForm(par.id,chi.srcUser)">@{{chi.srcUser.nickName}}</v-button> ：
                             <v-button type="link" color="four" :fontSize="14" @click="showReplyForm(par.id,chi.tarUser)">@{{chi.tarUser.nickName}}</v-button>
@@ -78,7 +78,7 @@ export default {
                 parCommentId: null
             },
             replyUserName: null,
-            defAvatar: require('../../../assets/avatar.png')
+            defAvatar: require('assets/images/avatar.png')
         }
     },
     watch: {
@@ -148,7 +148,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../../static/scss/variables.scss';
+@import '~scss_vars';
 .comment-field {
     &:before,
     &:after {

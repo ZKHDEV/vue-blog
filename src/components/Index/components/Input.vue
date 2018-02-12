@@ -26,7 +26,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../../static/scss/variables.scss';
+@import '~scss_vars';
 .v-input {
     box-sizing: border-box;
     margin: 5px 0;

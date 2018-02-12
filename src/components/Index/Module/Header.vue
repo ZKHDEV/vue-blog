@@ -1,14 +1,14 @@
 <template>
     <div class="header-container">
         <v-col :xs="4" :sm="4" :md="4" class="header-logo">
-            <router-link :to="{ name: '/' }">
-                <img class="logo hidden-xs" :src="defLogo"></img>
-                <img class="mini-logo visible-xs-inline-block" :src="miniLogo"></img>
+            <router-link :to="{ name: 'index' }">
+                <img class="logo hidden-xs" :src="defLogo"/>
+                <img class="mini-logo visible-xs-inline-block" :src="miniLogo"/>
             </router-link>
         </v-col>
         <v-col :xs="20" :sm="16" :md="16" class="header-nav">
             <ul>
-                <li v-for="item in pages">
+                <li v-for="(item,index) in pages" :key="index">
                     <router-link :to="{ name: item.name }">
                         <span class="hidden-xs">{{item.title}}</span>
                         <i :class="['fa',`fa-${item.icon}`,'visible-xs-inline-block']"></i>
@@ -24,10 +24,10 @@
         <v-col :xs="0" :sm="4" :md="4" class="header-account">
             <v-button v-if="!user" class="account-btn" @click="handleLogin" color="two" :height="40" :width="100" :fontSize="13">登录/注册</v-button>
             <a class="setting-btn" v-if="user" href="javascript:void(0)" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
-                <img :src="user.avatar"></img>
+                <img :src="user.avatar"/>
                 <div class="setting-menu" v-show="showSetMenu">
                     <ul>
-                        <li v-for="item in settings">
+                        <li v-for="(item,index) in settings" :key="index">
                             <router-link :to="{ name: item.name }">
                                 <i :class="['fa',`fa-${item.icon}`]"></i>{{item.title}}
                             </router-link>
@@ -43,13 +43,13 @@
     </div>
 </template>
 <script>
-import types from '../../../store/mutation-types'
+import types from '@/store/mutation-types'
 export default {
     props: ['user'],
     data() {
         return {
             pages: [
-                { title: '主页', name: '/', icon: 'home' },
+                { title: '主页', name: 'index', icon: 'home' },
                 { title: '分类', name: 'cate', icon: 'bookmark-o' },
                 { title: '相册', name: 'gallery', icon: 'camera-retro' },
                 { title: '关于', name: 'about', icon: 'id-card-o' }
@@ -58,8 +58,8 @@ export default {
             settings: [
                 { title: '管理', name: 'admin', icon: 'tachometer' },
             ],
-            defLogo: require('../../../assets/logo-100x40.png'),
-            miniLogo: require('../../../assets/logo-40x40.png'),
+            defLogo: require('assets/images/logo-100x40.png'),
+            miniLogo: require('assets/images/logo-40x40.png'),
         }
     },
     methods: {
@@ -79,8 +79,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../static/scss/variables.scss';
-@import '../../../static/scss/visible.scss';
+@import '~scss_vars';
+@import '~assets/scss/visible.scss';
 .header-container {
     position: fixed;
     top: 0;
@@ -89,7 +89,7 @@ export default {
     z-index: 9999;
     height: 55px;
     padding-top: 5px;
-    background: #FFFFFF url('../../../assets/' + $theme-lace-image-name);
+    background: #FFFFFF url('~assets/images/' + $theme-lace-image-name);
     background-repeat: repeat-x;
     background-position-y: -10px;
     box-shadow: 0 0 10px 0 rgba(#000000, 0.3);

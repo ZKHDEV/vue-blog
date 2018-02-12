@@ -2,7 +2,7 @@
     <v-card>
         <div class="cate-back">
             <ul class="cate-list">
-                <li v-for="item in cateList">
+                <li v-for="(item,index) in cateList" :key="index">
                     <router-link :class="['cate-item', {'active':item.val===curCate}]" :to="{ name: 'cate', params: { cateId: item.val } }">{{item.txt}}</router-link>
                 </li>
             </ul>
@@ -54,10 +54,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../../static/scss/variables.scss';
+@import '~scss_vars';
 .cate-back {
     padding-left: 6px;
-    background: #FFFFFF url('../../../assets/' + $theme-lace-image-name-v);
+    background: #FFFFFF url('~assets/images/' + $theme-lace-image-name-v);
 }
 
 .cate-list {

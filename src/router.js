@@ -13,12 +13,11 @@ const routes = [
   },
   {
     path: '/u/:uid',
-    name: 'index',
     component: resolve => require(['./components/Index/Index.vue'], resolve),
     children: [
       {
         path: '/',
-        name: '/',
+        name: 'index',
         component: resolve => require(['./components/Index/Home.vue'], resolve)
       },
       {
@@ -50,7 +49,6 @@ const routes = [
   },
   {
     path: '/admin',
-    name: 'admin',
     meta: {
       auth: true
     },
@@ -58,7 +56,7 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'welcome',
+        name: 'admin',
         component: resolve => require(['./components/Admin/Welcome.vue'], resolve)
       },
       {

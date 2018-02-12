@@ -2,7 +2,7 @@
     <div class="login-container" v-title="'登录'">
         <v-theme-card class="login-card" :padding-hor="50" :padding-ver="38" :backPosX="-40">
             <div class="card-content">
-                <img class="logo" :src="mainLogo"></img>
+                <img class="logo" :src="mainLogo"/>
                 <v-card class="input-card" type="inverse" :padding-hor="20" :padding-ver="0">
                     <div class="input-item">
                         <div class="input-group phone-input">
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import types from '../../store/mutation-types'
+import types from '@/store/mutation-types'
 export default {
     data() {
         return {
@@ -36,7 +36,7 @@ export default {
             phone: '',    //手机号
             code: '',    //验证码
             loginInfo: '',    //登录验证信息
-            mainLogo: require('../../assets/logo-200x80.png')
+            mainLogo: require('assets/images/logo-200x80.png')
         }
     },
     methods: {
@@ -101,7 +101,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../static/scss/variables.scss';
+@import '~scss_vars';
 .login-container {
     position: absolute;
     top: 0;
@@ -194,7 +194,7 @@ export default {
 
 @media (max-width:420px) {
     .login-container {
-        background: #FFFFFF url('../../assets/' + $theme-lace-image-name);
+        background: #FFFFFF url('~assets/images/' + $theme-lace-image-name);
     }
     .login-card {
         width: 100%;

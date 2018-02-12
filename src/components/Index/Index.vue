@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../static/scss/variables.scss';
+@import '~scss_vars';
 .index-container {
     background-color: $theme-background-color;
     padding-top: 100px;

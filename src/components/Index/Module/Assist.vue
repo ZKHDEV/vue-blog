@@ -40,7 +40,7 @@
                 </a>
                 <div class="acc-content share-content">
                     <div class="share-info">扫码分享</div>
-                    <img class="share-code" src=""></img>
+                    <img class="share-code" src=""/>
                 </div>
             </li>
         </ul>
@@ -114,7 +114,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../../static/scss/variables.scss';
+@import '~scss_vars';
 .v-assist-card {
     background-color: #FFFFFF;
 }

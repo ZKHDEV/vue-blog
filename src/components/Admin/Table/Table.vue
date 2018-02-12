@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import {toDateString,exportCsv} from '../../static/js/utils.js'
+import {toDateString,exportCsv} from 'assets/js/utils.js'
 export default {
   data() {
     return {

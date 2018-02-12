@@ -90,7 +90,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../../static/scss/variables.scss';
+@import '~scss_vars';
 .v-button {
     padding: 0;
     border-radius: 3px;

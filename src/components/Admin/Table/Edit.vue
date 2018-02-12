@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {toDateString} from '../../static/js/utils.js'
+import {toDateString} from 'assets/js/utils.js'
 export default {
     data() {
         return {

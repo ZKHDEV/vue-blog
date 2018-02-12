@@ -9,7 +9,6 @@
                     <el-form-item label="名称">
                         <el-input v-model="search.label" placeholder="名称"></el-input>
                     </el-form-item>
-                    </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="handleSearch">搜索</el-button>
                     </el-form-item>

@@ -1,8 +1,8 @@
 <template>
     <v-card class="v-accordion-card">
         <ul :class="{'active':isActive}" @mouseover="stopAnimate" @mouseout="startAnimate">
-            <li v-for="(item,index) in posts" :class="{'active':now===index}" @mouseover="now = index" :style="style">
-                <img :src="item.img" @click="handleClick"></img>
+            <li :key="index" v-for="(item,index) in posts" :class="{'active':now===index}" @mouseover="now = index" :style="style">
+                <img :src="item.img" @click="handleClick"/>
             </li>
         </ul>
     </v-card>
@@ -21,11 +21,11 @@ export default {
             now: 0,    //当前索引值
             interval: null,    //时间间隔器
             posts: [
-                { link: 'javascript:void(0)', img: require('../../../assets/temp.png') },
-                { link: 'javascript:void(0)', img: require('../../../assets/temp.png') },
-                { link: 'javascript:void(0)', img: require('../../../assets/temp.png') },
-                { link: 'javascript:void(0)', img: require('../../../assets/temp.png') },
-                { link: 'javascript:void(0)', img: require('../../../assets/temp.png') }
+                { link: 'javascript:void(0)', img: require('assets/images/temp.png') },
+                { link: 'javascript:void(0)', img: require('assets/images/temp.png') },
+                { link: 'javascript:void(0)', img: require('assets/images/temp.png') },
+                { link: 'javascript:void(0)', img: require('assets/images/temp.png') },
+                { link: 'javascript:void(0)', img: require('assets/images/temp.png') }
             ]
         }
     },
@@ -107,6 +107,6 @@ export default {
 
 img {
     cursor: pointer;
-    height: 100%; // width: 100%;
+    height: 100%;
 }
 </style>
