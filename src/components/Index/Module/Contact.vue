@@ -4,7 +4,9 @@
         <v-split></v-split>
         <v-input placeholder="主题"></v-input>
         <v-textarea placeholder="写下你的留言..."></v-textarea>
-        <v-button color="four" :height="40" :fontSize="18" :top="5" @click="handleSubmit">提 交</v-button>
+        <div class="btn-group">
+            <v-button class="send-btn" color="four" :height="40" :width="80" :fontSize="18" :top="5" @click="handleSubmit">提 交</v-button>
+        </div>
     </v-theme-card>
 </template>
 
@@ -26,6 +28,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.btn-group{
+    text-align: right;
+}
 </style>
 

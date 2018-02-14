@@ -2,7 +2,7 @@
     <v-theme-card :paddingVer="20" :paddingHor="50">
         <h1 class="post-title">{{post.title}}</h1>
         <div class="post-note">
-            <img :src="post.user.avatar || defAvatar"/>
+            <router-link :to="{ name: 'index', params: { uid: post.user.id } }"><img :src="post.user.avatar ? require(`assets/images/${post.user.avatar}`) : defAvatar"/></router-link>
             <div class="post-info">
                 <p class="post-info-one">
                     <span class="post-author">{{post.user.nickName || post.user.phone}}</span>
@@ -18,8 +18,8 @@
         </div>
         <v-markdown-content :content="post.content"></v-markdown-content>
         <v-split :spacing="40"></v-split>
-        <v-button class="post-like-btn" type="switch" :on="isLike" color="two" :height="60" :width="130" :fontSize="18" @click="handleLike">
-            <i :class="['fa', isLike ? 'fa-heart' : 'fa-heart-o']"></i> 喜欢 | {{post.likeNum}}</v-button>
+        <v-button class="post-like-btn" type="switch" :on="post.like" color="two" :height="60" :width="130" :fontSize="18" @click="handleLike">
+            <i :class="['fa', post.like ? 'fa-heart' : 'fa-heart-o']"></i> 喜欢 | {{post.likeNum}}</v-button>
     </v-theme-card>
 </template>
 <script>
@@ -36,6 +36,7 @@ export default {
                 commentNum: '',
                 likeNum: '',
                 content: '',
+                like: false,
                 user: {
                     id: '',
                     avatar: '',
@@ -43,21 +44,26 @@ export default {
                     nickName: ''
                 }
             },
-            isLike: false,
             defAvatar: require('assets/images/avatar.png')
         }
     },
     watch: {
-        postId(newVal,oldVal){
+        postId(){
             this.init();
         }
     },
     methods: {
         handleLike() {
-            //模拟后台处理延时
-            setTimeout(() => {
-                this.isLike = !this.isLike;
-            }, 500);
+            this.$http.post('/post/like', {id:this.post.id,like:!this.post.like}).then((response) => {
+                if(response.data.code === 0){
+                    this.post.like = !this.post.like;
+                    if(this.post.like) {
+                        this.post.likeNum++;
+                    } else {
+                        this.post.likeNum--;
+                    }
+                }
+            });
         },
         init(){
             this.post = {
@@ -68,6 +74,7 @@ export default {
                 commentNum: '',
                 likeNum: '',
                 content: '',
+                like: false,
                 user: {
                     id: '',
                     avatar: '',

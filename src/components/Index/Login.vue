@@ -66,7 +66,7 @@ export default {
                             if(redirect === '/'){
                                 this.$router.push({
                                     name: 'index',
-                                    params: {phone: respUser.phone}
+                                    params: {uid: respUser.id}
                                 })
                             } else {
                                 this.$router.push({

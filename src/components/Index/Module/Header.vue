@@ -23,7 +23,7 @@
         </v-col>
         <v-col :xs="0" :sm="4" :md="4" class="header-account">
             <v-button v-if="!user" class="account-btn" @click="handleLogin" color="two" :height="40" :width="100" :fontSize="13">登录/注册</v-button>
-            <a class="setting-btn" v-if="user" href="javascript:void(0)" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
+            <a class="setting-btn" v-if="user" href="javascript:void(0)" @click="$router.push({name:'index',params:{uid:user.id}})" @mouseover="showSetMenu=true" @mouseout="showSetMenu=false">
                 <img :src="user.avatar"/>
                 <div class="setting-menu" v-show="showSetMenu">
                     <ul>

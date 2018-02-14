@@ -2,9 +2,9 @@
     <v-theme-card class="v-post-card" :paddingVer="20" :paddingHor="20">
         <template v-for="post in postList">
             <div class="post-item" :key="post.id">
-                <img class="post-img" :src="post.cover || defAvatar" v-if="post.cover"/>
+                <img class="post-img" :src="post.cover || defAvatar" v-if="post.cover" @click="handleAuthor"/>
                 <div class="post-note">
-                    <img :src="post.user.avatar || require('assets/images/avatar.png')" @click="handleAuthor"/>
+                    <router-link :to="{ name: 'index', params: { uid: post.user.id } }"><img :src="post.user.avatar ? require(`assets/images/${post.user.avatar}`) : defAvatar"/></router-link>
                     <span class="post-note-name">{{post.user.nickName ? post.user.nickName : post.user.phone}}</span>
                     <span class="post-note-time">{{post.dateTime}}</span>
                 </div>
@@ -42,8 +42,8 @@ export default {
       }
     },
     methods: {
-        handleAuthor() {
-
+        handleAuthor(uid) {
+            this.$router.push({ name: 'index', params: { uid: uid } });
         },
         showPost(id){
             this.$router.push({ name: 'post', params: { postId: id } });

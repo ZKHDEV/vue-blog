@@ -7,7 +7,7 @@
         </v-row>
         <v-row>
             <v-col :md="{span:18,offset:3}">
-                <v-comment :postId="postId"></v-comment>
+                <v-comment :postId="postId" :user="user"></v-comment>
             </v-col>
         </v-row>
     </div>
@@ -16,7 +16,8 @@
 export default {
     data() {
         return {
-            postId: null
+            postId: this.$route.params.postId,
+            user: this.$store.state.loginUser
         }
     },
     watch: {

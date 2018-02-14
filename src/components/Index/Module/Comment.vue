@@ -1,19 +1,23 @@
 <template>
     <v-theme-card :paddingVer="50" :paddingHor="50">
-        <div class="comment-field">
+        <div class="comment-nolog" v-if="!user">
+            <v-button color="two" :height="60" :width="160" :fontSize="20" @click="$router.push({name:'login'})">请先登录</v-button>
+        </div>
+        <div class="comment-div" v-if="user">
+            <div class="comment-field">
             <div class="comment-field-avatar">
-                <img :src="defAvatar"/>
+                <router-link :to="{ name: 'index', params: { uid: user.id } }"><img :src="user.avatar ? require(`assets/images/${user.avatar}`) : defAvatar"/></router-link>
             </div>
             <div class="comment-field-form">
                 <v-textarea placeholder="写下你的评论..." v-model="newComment.content"></v-textarea>
                 <v-button class="comment-form-btn" color="four" :height="40" :width="80" :fontSize="16" @click="submitComment(newComment)">发送</v-button>
-                <v-button class="comment-form-btn" type="link" color="gray" :height="40" :width="80" :fontSize="16" @click="newComment.content=''">取消</v-button>
+                <v-button class="comment-form-btn" type="link" color="gray" :height="40" :width="80" :fontSize="16" @click="newComment.content=''">清空</v-button>
             </div>
         </div>
         <template v-for="(par,index) in comments">
             <div class="comment-item" :key="index">
                 <div class="comment-note">
-                    <img :src="par.srcUser.avatar || defAvatar"/>
+                    <router-link :to="{ name: 'index', params: { uid: par.srcUser.id } }"><img :src="par.srcUser.avatar ? require(`assets/images/${par.srcUser.avatar}`) : defAvatar"/></router-link>
                     <div class="comment-info">
                         <p class="comment-info-one">
                             <span class="comment-author">{{par.srcUser.nickName}}</span>
@@ -57,11 +61,13 @@
                 </div>
             </div>
         </template>
+        </div>
+        
     </v-theme-card>
 </template>
 <script>
 export default {
-    props: ['postId'],
+    props: ['postId','user'],
     data() {
         return {
             isLike: false,
@@ -83,7 +89,9 @@ export default {
     },
     watch: {
         postId(){
-            this.init();
+            if(this.user){
+                this.init();
+            }
         }
     },
     methods: {
@@ -137,7 +145,9 @@ export default {
         }
     },
     mounted(){
-        this.init();
+        if(this.user){
+            this.init();
+        }
     },
     components: {
         'v-button': resolve => require(['../components/Button.vue'], resolve),
@@ -149,6 +159,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~scss_vars';
+.comment-nolog{
+    text-align: center;
+}
 .comment-field {
     &:before,
     &:after {
